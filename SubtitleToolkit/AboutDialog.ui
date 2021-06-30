@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>140</height>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About Subshop</string>
+   <string>About</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Resources.qrc">
@@ -24,9 +24,9 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>110</y>
+     <y>250</y>
      <width>381</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="orientation">
@@ -35,23 +35,21 @@
    <property name="standardButtons">
     <set>QDialogButtonBox::Close</set>
    </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>89</x>
-     <y>9</y>
-     <width>301</width>
-     <height>81</height>
+     <x>10</x>
+     <y>100</y>
+     <width>381</width>
+     <height>141</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Subshop is a free software to create subtitles for movies the easy way.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Find BILLVOG @ &lt;a href=&quot;https://billvog.ga&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;billvog.ga&lt;/span&gt;&lt;/a&gt; &amp;amp; &lt;a href=&quot;https://github.com/billvog/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;github.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtitle Toolkit is a free software developed by BILLVOG licensed under the GPLv3 license.&lt;/p&gt;&lt;p&gt;It helps you create subtitles with ease using it's simple yet powerful user interface.&lt;/p&gt;&lt;p&gt;Open Source: &lt;a href=&quot;https://github.com/billvog/SubtitleToolkit&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0068da;&quot;&gt;github.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Installed version: 1.0.0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -66,20 +64,20 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>160</x>
      <y>10</y>
-     <width>70</width>
-     <height>70</height>
+     <width>81</width>
+     <height>81</height>
     </rect>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="pixmap">
     <pixmap resource="Resources.qrc">:/Icons/Assets/Icon.ico</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

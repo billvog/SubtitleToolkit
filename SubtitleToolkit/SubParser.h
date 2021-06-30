@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QTextStream>
 
-#include "subtitleitem.h"
+#include "SubtitleItem.h"
 
 class SubParser {
 public:

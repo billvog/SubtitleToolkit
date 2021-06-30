@@ -2,7 +2,7 @@
 
 #include <QString>
 
-#include "subtitleitem.h"
+#include "SubtitleItem.h"
 
 class UndoItem {
 public:

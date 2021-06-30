@@ -1,4 +1,4 @@
-#include "subparser.h"
+#include "SubParser.h"
 
 SubParser::SubParser() {}
 
@@ -8,21 +8,32 @@ QList<SubtitleItem> SubParser::ParseSrt(QString filepath) {
 
     QFile File(filepath);
     if (!File.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return Result;
+        throw "File could not open";
     }
 
     QTextStream in(&File);
     while (!in.atEnd()) {
         in.readLine();
 
-        QString SubShowTime = in.read(12);
-        in.seek(in.pos() + 5);
-        QString SubHideTime = in.read(12);
+        QRegExp SubTimeRegEx("[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}");
 
-        in.seek(in.pos() + 2);
+        QString SubShowTime = in.read(12);
+        if (!SubTimeRegEx.exactMatch(SubShowTime)) {
+            throw "Unexptected token at position: " + QString::number(in.pos());
+        }
+
+        in.seek(in.pos() + 5);
+
+        QString SubHideTime = in.read(12);
+        if (!SubTimeRegEx.exactMatch(SubHideTime)) {
+            throw "Unexptected token at position: " + QString::number(in.pos());
+        }
+
+        in.seek(in.pos() + 1);
 
         QString SubText;
         QChar c;
+
         while (!in.atEnd()) {
             in >> c;
             if (c == '\n') {
@@ -30,7 +41,7 @@ QList<SubtitleItem> SubParser::ParseSrt(QString filepath) {
 
                 if (c == '\n') break;
 
-                in.seek(in.pos() - 3);
+                in.seek(in.pos() - 2);
                 in >> c;
             }
 
@@ -98,7 +109,7 @@ QList<SubtitleItem> SubParser::ParseVtt(QString filepath) {
         in.seek(in.pos() + 5);
         QString SubHideTime = in.read(12);
 
-        in.seek(in.pos() + 2);
+        in.seek(in.pos() + 1);
 
         QString SubText;
         QChar c;
@@ -109,7 +120,7 @@ QList<SubtitleItem> SubParser::ParseVtt(QString filepath) {
 
                 if (c == '\n') break;
 
-                in.seek(in.pos() - 3);
+                in.seek(in.pos() - 2);
                 in >> c;
             }
 

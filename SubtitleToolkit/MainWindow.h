@@ -22,11 +22,11 @@
 #include <QGraphicsDropShadowEffect>
 #include <QMediaPlayer>
 
-#include "aboutdialog.h"
+#include "AboutDialog.h"
 
-#include "subtitleitem.h"
-#include "subparser.h"
-#include "undoitem.h"
+#include "SubtitleItem.h"
+#include "SubParser.h"
+#include "UndoItem.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -53,7 +53,7 @@ private:
     QString SubFilePath;
 
     const QString SubtitleFileSelector = "Subtitle Files (*.srt *.vtt)";
-    const QString MediaFileSelector = "Media Files (*.mp4 *.mkv *.webm *.avi *.flv *.mov *.vob *.ogv);;All Files (*.*)";
+    const QString MediaFileSelector = "Media Files (*.mp4 *.mpeg *.mkv *.webm *.avi *.flv *.mov *.vob *.ogv);;All Files (*.*)";
     bool hasFileOpen = false;
     bool isSaved = false;
 

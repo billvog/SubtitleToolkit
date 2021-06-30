@@ -2,5 +2,8 @@
 Debug/
 Release/
 
+# Qt
+*.pro.user
+
 # Misc
 .DS_Store

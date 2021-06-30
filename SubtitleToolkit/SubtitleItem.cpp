@@ -1,4 +1,4 @@
-#include "subtitleitem.h"
+#include "SubtitleItem.h"
 
 SubtitleItem::SubtitleItem() {}
 

@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -51,7 +51,6 @@ void MainWindow::dropEvent(QDropEvent *e) {
         QFileInfo fileInfo(path);
         QString suffix(fileInfo.suffix());
 
-        // Uhuu Buhuu:: Make things do stuff no one else can get done.
         if (SubtitleFileSelector.contains(suffix)) {
             OpenSubtitleFile(path);
         }
@@ -271,7 +270,7 @@ void MainWindow::SetIsSaved(bool value) {
         windowTitlePrefix = "*" + filename;
     }
 
-    setWindowTitle(windowTitlePrefix + " - Subshop");
+    setWindowTitle(windowTitlePrefix + " - Subtitle Toolkit");
     hasFileOpen = true;
     isSaved = value;
 }
@@ -287,7 +286,7 @@ void MainWindow::NewAction() {
     Subtitles.clear();
 
     SubFilePath.clear();
-    setWindowTitle("untitled - Subshop");
+    setWindowTitle("untitled - Subtitle Toolkit");
 
     UndoItems.clear();
     RedoItems.clear();
@@ -374,7 +373,7 @@ void MainWindow::SaveAsAction() {
 
     SubFilePath = file;
     QFileInfo fileInfo(SubFilePath);
-    setWindowTitle(fileInfo.fileName() + " - Subshop");
+    setWindowTitle(fileInfo.fileName() + " - Subtitle Toolkit");
 
     SetIsSaved(true);
 }
@@ -388,7 +387,7 @@ void MainWindow::CloseAction() {
     Subtitles.clear();
 
     SubFilePath.clear();
-    setWindowTitle("Subshop");
+    setWindowTitle("Subtitle Toolkit");
 
     EditingSubtitleIndex = -1;
     PrevEditinSubtitleIndex = EditingSubtitleIndex;
@@ -559,7 +558,6 @@ void MainWindow::CloseMediaAction() {
 
 // Help
 void MainWindow::AboutHelpAction() {
-    // Uhuu Buhuu:: make about dialog
     AboutDialog *dialog = new AboutDialog(this);
     dialog->show();
 }
@@ -685,19 +683,33 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
     PrevEditinSubtitleIndex = EditingSubtitleIndex;
 
     QString suffix(fileInfo.suffix());
-    if (suffix == "srt") {
-        Subtitles = SubParser::ParseSrt(SubFilePath);
-    }
-    else if (suffix == "vtt") {
-        Subtitles = SubParser::ParseVtt(SubFilePath);
-    }
-    else {
-        QMessageBox::critical(this, "Error", "Unsupported file type: \"" + suffix + "\"");
+
+    try {
+        if (suffix == "srt") {
+            Subtitles = SubParser::ParseSrt(SubFilePath);
+        }
+        else if (suffix == "vtt") {
+            Subtitles = SubParser::ParseVtt(SubFilePath);
+        }
+        else {
+            QMessageBox::critical(this, "Error", "Unsupported file type: \"" + suffix + "\"");
+            CloseAction();
+            return;
+        }
+    }  catch (const QString error) {
+        QMessageBox::critical(this, "Parse Error", error);
         CloseAction();
         return;
     }
 
     subtitlesModel->clear();
+
+    if (Subtitles.length() == 0) {
+        QMessageBox::critical(this, "Parse Error", "File format is corrupt and could not be parsed.");
+        CloseAction();
+        return;
+    }
+
     for (int i = 0; i < Subtitles.size(); i++) {
         subtitlesModel->setItem(i, 0, new QStandardItem(Subtitles.at(i).getShowTimestamp().toString("hh:mm:ss,zzz")));
         subtitlesModel->setItem(i, 1, new QStandardItem(Subtitles.at(i).getHideTimestamp().toString("hh:mm:ss,zzz")));
