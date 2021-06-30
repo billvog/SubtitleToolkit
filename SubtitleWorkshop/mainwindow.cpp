@@ -59,7 +59,7 @@ void MainWindow::dropEvent(QDropEvent *e) {
             OpenMediaFile(path);
         }
         else {
-            QMessageBox::critical(this, "Error", "Unsupported file type \"" + suffix + "\"");
+            QMessageBox::critical(this, "Error", "Unsupported file type: \"" + suffix + "\"");
             return;
         }
     }
@@ -583,6 +583,12 @@ void MainWindow::VideoSeekableChanged(bool) {
 }
 
 void MainWindow::VideoDurationChanged(qint64 value) {
+    if (value == 0) {
+        ui->TimelineSlider->setMaximum(1);
+        ui->TimelineSlider->setEnabled(false);
+    }
+
+    ui->TimelineSlider->setEnabled(true);
     ui->TimelineSlider->setMaximum(value);
 }
 
@@ -633,14 +639,14 @@ void MainWindow::SeekForwards() {
     if (player->mediaStatus() == QMediaPlayer::NoMedia)
         return;
 
-    player->setPosition(player->position() + 500);
+    player->setPosition(player->position() + mediaSeekFactor);
 }
 
 void MainWindow::SeekBackwards() {
     if (player->mediaStatus() == QMediaPlayer::NoMedia)
         return;
 
-    player->setPosition(player->position() - 500);
+    player->setPosition(player->position() - mediaSeekFactor);
 }
 
 void MainWindow::VolumeUp() {
@@ -670,7 +676,7 @@ void MainWindow::VolumeSliderChanged(int value) {
 void MainWindow::OpenSubtitleFile(const QString &Path) {
     SubFilePath = Path;
     QFileInfo fileInfo(SubFilePath);
-    setWindowTitle(fileInfo.fileName() + " - Subshop");
+    setWindowTitle(fileInfo.fileName() + " - Subtitle Toolkit");
 
     UndoItems.clear();
     RedoItems.clear();
@@ -686,7 +692,7 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
         Subtitles = SubParser::ParseVtt(SubFilePath);
     }
     else {
-        QMessageBox::critical(this, "Error", "Unsupported file type \"" + suffix + "\"");
+        QMessageBox::critical(this, "Error", "Unsupported file type: \"" + suffix + "\"");
         CloseAction();
         return;
     }

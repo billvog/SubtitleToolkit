@@ -3,6 +3,7 @@ QT       += core gui multimedia multimediawidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+CONFIG += sdk_no_version_check
 
 TARGET = Subshop
 

@@ -1,3 +1,6 @@
 # Bin Folders
 Debug/
 Release/
+
+# Misc
+.DS_Store

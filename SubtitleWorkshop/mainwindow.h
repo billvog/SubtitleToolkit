@@ -69,9 +69,10 @@ private:
 
     QGraphicsVideoItem *videoItem;
     QGraphicsTextItem *subTextItem;
-    qreal subTextScaleFactor = 1.0;
     QGraphicsScene *scene;
     QMediaPlayer *player;
+    qreal subTextScaleFactor = 1.0;
+    qreal mediaSeekFactor = 250;
 
     void SetupButtonIcons();
     void SetupVideoWidget();
