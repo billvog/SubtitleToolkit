@@ -203,6 +203,17 @@ void MainWindow::UpdateUI() {
     UpdateSubPosition();
 }
 
+void MainWindow::UpdateSubAlignment() {
+  subTextItem->setTextWidth(subTextItem->boundingRect().width());
+  QTextBlockFormat format;
+  format.setAlignment(Qt::AlignCenter);
+  QTextCursor cursor = subTextItem->textCursor();
+  cursor.select(QTextCursor::Document);
+  cursor.mergeBlockFormat(format);
+  cursor.clearSelection();
+  subTextItem->setTextCursor(cursor);
+}
+
 void MainWindow::UpdateSubPosition() {
     QSizeF textRectSize = subTextItem->boundingRect().size() * subTextScaleFactor;
     qreal target_y = videoItem->size().height() - textRectSize.height();
@@ -412,6 +423,7 @@ void MainWindow::ExitAction() {
 // Edit
 void MainWindow::UndoAction() {
     if (UndoItems.isEmpty()) {
+        QMessageBox::warning(this, "Warning", "There isn't anything to undo");
         return;
     }
 
@@ -471,6 +483,7 @@ void MainWindow::UndoAction() {
 
 void MainWindow::RedoAction() {
     if (RedoItems.isEmpty()) {
+        QMessageBox::warning(this, "Warning", "There isn't anything to redo");
         return;
     }
 
@@ -750,6 +763,8 @@ void MainWindow::DisplaySubtitle(const SubtitleItem &subItem) {
 
     // Display Subtitle on Video
     subTextItem->setHtml(subItem.getSubtitle().replace('\n', "<br>"));
+
+    UpdateSubAlignment();
     UpdateSubPosition();
 
     // Fill active Subtitle values on fields
@@ -912,7 +927,7 @@ void MainWindow::ApplySubtitle() {
     SubtitleItem SubItem(SubShowTime, SubHideTime, SubText);
 
     if (SubText.isEmpty()) {
-        QMessageBox::warning(this, "Warning", "Fill all the required fields");
+        QMessageBox::warning(this, "Warning", "Subtitle text cannot be empty");
         return;
     }
 

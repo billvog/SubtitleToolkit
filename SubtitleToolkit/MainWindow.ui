@@ -224,7 +224,7 @@
           <widget class="QToolButton" name="SubBoldButton">
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
              <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
@@ -245,7 +245,7 @@
           <widget class="QToolButton" name="SubItalicButton">
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
              <italic>true</italic>
             </font>
            </property>
@@ -264,7 +264,7 @@
           <widget class="QToolButton" name="SubUnderlineButton">
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
              <underline>true</underline>
             </font>
            </property>
@@ -283,7 +283,7 @@
           <widget class="QToolButton" name="SubStrikeoutButton">
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
              <strikeout>true</strikeout>
             </font>
            </property>
@@ -526,13 +526,13 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>155</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>150</width>
+        <width>155</width>
         <height>16777215</height>
        </size>
       </property>

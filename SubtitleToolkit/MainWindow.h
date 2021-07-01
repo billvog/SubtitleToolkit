@@ -80,6 +80,7 @@ private:
     void ConnectEvents();
 
     void UpdateUI();
+    void UpdateSubAlignment();
     void UpdateSubPosition();
 
     QTime MsToTime(int ms);
