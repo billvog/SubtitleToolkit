@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="Resources.qrc">
-    <normaloff>:/Icons/Assets/Icon.ico</normaloff>:/Icons/Assets/Icon.ico</iconset>
+    <normaloff>:/Icons/Assets/colored-icon.ico</normaloff>:/Icons/Assets/colored-icon.ico</iconset>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>

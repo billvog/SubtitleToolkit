@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 CONFIG += sdk_no_version_check
 
-ICON = Assets/icon.icns
+ICON = Assets/colored-icon.icns
 TARGET = "Subtitle Toolkit"
 
 # The following define makes your compiler emit warnings if you use

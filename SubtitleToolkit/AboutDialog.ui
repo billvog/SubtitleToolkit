@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="Resources.qrc">
-    <normaloff>:/Icons/Assets/Icon.ico</normaloff>:/Icons/Assets/Icon.ico</iconset>
+    <normaloff>:/Icons/Assets/colored-icon.ico</normaloff>:/Icons/Assets/colored-icon.ico</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -71,7 +71,7 @@
     </rect>
    </property>
    <property name="pixmap">
-    <pixmap resource="Resources.qrc">:/Icons/Assets/Icon.ico</pixmap>
+    <pixmap resource="Resources.qrc">:/Icons/Assets/colored-icon.ico</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
