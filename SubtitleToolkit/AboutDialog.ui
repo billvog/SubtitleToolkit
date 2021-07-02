@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>290</height>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>250</y>
+     <y>270</y>
      <width>381</width>
      <height>31</height>
     </rect>
@@ -43,13 +43,10 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>120</y>
      <width>381</width>
      <height>141</height>
     </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtitle Toolkit is a free software developed by BILLVOG licensed under the GPLv3 license.&lt;/p&gt;&lt;p&gt;It helps you create subtitles with ease using it's simple yet powerful user interface.&lt;/p&gt;&lt;p&gt;Open Source: &lt;a href=&quot;https://github.com/billvog/SubtitleToolkit&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0068da;&quot;&gt;github.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Installed version: 1.0.0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -64,10 +61,10 @@
   <widget class="QLabel" name="Icon">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>150</x>
      <y>10</y>
-     <width>81</width>
-     <height>81</height>
+     <width>100</width>
+     <height>100</height>
     </rect>
    </property>
    <property name="pixmap">

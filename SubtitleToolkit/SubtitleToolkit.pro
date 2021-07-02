@@ -30,6 +30,7 @@ SOURCES += \
 
 HEADERS += \
     AboutDialog.h \
+    AppInfo.h \
     MainWindow.h \
     SubParser.h \
     SubtitleItem.h \

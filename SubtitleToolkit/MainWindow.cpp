@@ -4,16 +4,14 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    SetWindowTitle("");
     SetupButtonIcons();
     SetupVideoWidget();
     SetupSubtitlesTable();
     ConnectEvents();
 
     // Media Player Group
-    ui->TogglePlayButton->setEnabled(false);
-    ui->BackwardSeekButton->setEnabled(false);
-    ui->ForwardSeekButton->setEnabled(false);
-    ui->StopButton->setEnabled(false);
+    SetMediaControlsEnabled(false);
 
     // Subtitle Group
     ui->SubtitleGroupBox->setEnabled(false);
@@ -195,6 +193,15 @@ void MainWindow::ConnectEvents() {
     connect(ui->RemoveSubButton, SIGNAL(clicked()), this, SLOT(RemoveSubtitle()));
 }
 
+void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
+  ui->TogglePlayButton->setEnabled(isEnabled);
+  ui->ToggleMuteButton->setEnabled(isEnabled);
+  ui->VolumeSlider->setEnabled(isEnabled);
+  ui->BackwardSeekButton->setEnabled(isEnabled);
+  ui->ForwardSeekButton->setEnabled(isEnabled);
+  ui->StopButton->setEnabled(isEnabled);
+}
+
 void MainWindow::UpdateUI() {
     videoItem->setSize(ui->GraphicsView->size());
     scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
@@ -254,6 +261,15 @@ QTime MainWindow::MsToTime(int ms) {
     return QTime(hours, minutes, seconds, milliseconds);
 }
 
+void MainWindow::SetWindowTitle(const QString title) {
+  if (title.length() == 0) {
+      setWindowTitle(QString(PROGRAM_NAME));
+  }
+  else {
+      setWindowTitle(title + " – " + QString(PROGRAM_NAME));
+  }
+}
+
 bool MainWindow::CheckIfSaved() {
     if (hasFileOpen) {
         if (!isSaved) {
@@ -271,20 +287,21 @@ bool MainWindow::CheckIfSaved() {
 }
 
 void MainWindow::SetIsSaved(bool value) {
-    QString windowTitlePrefix;
+    QString windowTitle;
 
-    QString filename = QFileInfo(SubFilePath).fileName();
+    QString filename = QFileInfo(SubFilePath).absoluteFilePath();
+
     if (filename.isEmpty())
         filename = "untitled";
 
     if (value) {
-        windowTitlePrefix = filename;
+        windowTitle = filename;
     }
     else {
-        windowTitlePrefix = "*" + filename;
+        windowTitle = "* " + filename;
     }
 
-    setWindowTitle(windowTitlePrefix + " - Subtitle Toolkit");
+    SetWindowTitle(windowTitle);
     hasFileOpen = true;
     isSaved = value;
 }
@@ -300,7 +317,6 @@ void MainWindow::NewAction() {
     Subtitles.clear();
 
     SubFilePath.clear();
-    setWindowTitle("untitled - Subtitle Toolkit");
 
     UndoItems.clear();
     RedoItems.clear();
@@ -386,9 +402,6 @@ void MainWindow::SaveAsAction() {
     }
 
     SubFilePath = file;
-    QFileInfo fileInfo(SubFilePath);
-    setWindowTitle(fileInfo.fileName() + " - Subtitle Toolkit");
-
     SetIsSaved(true);
 }
 
@@ -401,7 +414,7 @@ void MainWindow::CloseAction() {
     Subtitles.clear();
 
     SubFilePath.clear();
-    setWindowTitle("Subtitle Toolkit");
+    SetWindowTitle("");
 
     EditingSubtitleIndex = -1;
     PrevEditinSubtitleIndex = EditingSubtitleIndex;
@@ -564,10 +577,7 @@ void MainWindow::CloseMediaAction() {
     player->setMedia(QMediaContent());
     player->stop();
 
-    ui->TogglePlayButton->setEnabled(false);
-    ui->BackwardSeekButton->setEnabled(false);
-    ui->ForwardSeekButton->setEnabled(false);
-    ui->StopButton->setEnabled(false);
+    SetMediaControlsEnabled(false);
 
     ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 }
@@ -586,10 +596,7 @@ void MainWindow::OpenMediaFile(const QString &Path) {
     ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
     ui->StopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
 
-    ui->TogglePlayButton->setEnabled(true);
-    ui->BackwardSeekButton->setEnabled(true);
-    ui->ForwardSeekButton->setEnabled(true);
-    ui->StopButton->setEnabled(true);
+    SetMediaControlsEnabled(true);
 }
 
 void MainWindow::VideoSeekableChanged(bool) {
@@ -690,7 +697,6 @@ void MainWindow::VolumeSliderChanged(int value) {
 void MainWindow::OpenSubtitleFile(const QString &Path) {
     SubFilePath = Path;
     QFileInfo fileInfo(SubFilePath);
-    setWindowTitle(fileInfo.fileName() + " - Subtitle Toolkit");
 
     UndoItems.clear();
     RedoItems.clear();

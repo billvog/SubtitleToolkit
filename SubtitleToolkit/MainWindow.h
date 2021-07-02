@@ -22,8 +22,8 @@
 #include <QGraphicsDropShadowEffect>
 #include <QMediaPlayer>
 
+#include "AppInfo.h"
 #include "AboutDialog.h"
-
 #include "SubtitleTextHighlighter.h"
 #include "SubtitleItem.h"
 #include "SubParser.h"
@@ -48,6 +48,7 @@ protected:
     void dropEvent(QDropEvent *e);
 
     void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::MainWindow *ui;
 
@@ -82,12 +83,15 @@ private:
     void SetupSubtitlesTable();
     void ConnectEvents();
 
+    void SetMediaControlsEnabled(bool isEnabled);
+
     void UpdateUI();
     void UpdateSubAlignment();
     void UpdateSubPosition();
 
     QTime MsToTime(int ms);
 
+    void SetWindowTitle(const QString title);
     bool CheckIfSaved();
     void SetIsSaved(bool value);
 
