@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     AboutDialog.cpp \
+    SubtitleTextHighlighter.cpp \
     main.cpp \
     MainWindow.cpp \
     SubParser.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     MainWindow.h \
     SubParser.h \
     SubtitleItem.h \
+    SubtitleTextHighlighter.h \
     UndoItem.h
 
 FORMS += \

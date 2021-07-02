@@ -24,6 +24,7 @@
 
 #include "AboutDialog.h"
 
+#include "SubtitleTextHighlighter.h"
 #include "SubtitleItem.h"
 #include "SubParser.h"
 #include "UndoItem.h"
@@ -49,6 +50,8 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 private:
     Ui::MainWindow *ui;
+
+    SubtitleTextHighlighter *subtitlesTextHighlighter;
 
     QString SubFilePath;
 

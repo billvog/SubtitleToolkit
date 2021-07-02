@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Subtitle Group
     ui->SubtitleGroupBox->setEnabled(false);
+
+    // Syntax Highlighing on Subtitle Text Field
+    subtitlesTextHighlighter = new SubtitleTextHighlighter(ui->SubtitleTextEdit->document());
 }
 
 MainWindow::~MainWindow() {

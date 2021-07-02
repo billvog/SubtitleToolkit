@@ -179,6 +179,30 @@
        <string>Subtitle</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="4" column="2" colspan="2">
+        <widget class="QPlainTextEdit" name="SubtitleTextEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Menlo</family>
+          </font>
+         </property>
+         <property name="placeholderText">
+          <string>Subtitle...</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="2" colspan="2">
         <layout class="QHBoxLayout" name="SubActionButtonsBox">
          <property name="spacing">
@@ -341,22 +365,6 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="1" colspan="3">
-        <widget class="QTableView" name="SubTableView">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-        </widget>
-       </item>
        <item row="4" column="1">
         <layout class="QGridLayout" name="SubTimeEditsGrid">
          <property name="spacing">
@@ -478,23 +486,20 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="2" colspan="2">
-        <widget class="QPlainTextEdit" name="SubtitleTextEdit">
+       <item row="1" column="1" colspan="3">
+        <widget class="QTableView" name="SubTableView">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>90</height>
-          </size>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
-         <property name="placeholderText">
-          <string>Subtitle...</string>
-         </property>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
         </widget>
        </item>
        <item row="2" column="1" colspan="3">
