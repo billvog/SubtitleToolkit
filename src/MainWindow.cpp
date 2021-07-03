@@ -866,19 +866,42 @@ void MainWindow::SubDurationChanged() {
 void MainWindow::SubTextToggleTag(const QString &tag) {
     QTextCursor textCursor = ui->SubtitleTextEdit->textCursor();
 
-    if (!textCursor.hasSelection()) {
-        return;
-    }
+    if (textCursor.hasSelection()) {
+        QString selectedText(textCursor.selectedText());
+        QRegExp expression("<" + tag + ">(.*)</" + tag + ">");
 
-    QString selectedText(textCursor.selectedText());
-    QString regExp("<" + tag + ">(.*)</" + tag + ">");
-
-    if (QRegExp(regExp).exactMatch(selectedText)) {
-        selectedText.replace(QRegExp(regExp), "\\1");
-        textCursor.insertText(selectedText);
+        if (expression.exactMatch(selectedText)) {
+            selectedText.replace(expression, "\\1");
+            textCursor.insertText(selectedText);
+        }
+        else {
+            textCursor.insertText("<" + tag + ">" + selectedText + "</" + tag + ">");
+        }
     }
     else {
-        textCursor.insertText("<" + tag + ">" + selectedText + "</" + tag + ">");
+        textCursor.select(QTextCursor::WordUnderCursor);
+        QString selectedWord = textCursor.selectedText();
+
+        int AbsoluteEndPos = textCursor.position();
+        int RelativeEndPos = textCursor.positionInBlock();
+
+        textCursor.select(QTextCursor::BlockUnderCursor);
+        QString selectedBlock = textCursor.selectedText();
+
+        QRegExp expression("(.*)<" + tag + ">(.*)(" + selectedWord + ")(.*)</" + tag + ">(.*)");
+        expression.setMinimal(true);
+        expression.indexIn(selectedBlock, 0, QRegExp::CaretAtOffset);
+        int foundPosition = expression.pos(3);
+
+        if ((AbsoluteEndPos == RelativeEndPos && foundPosition == RelativeEndPos - selectedWord.length()) ||
+            (AbsoluteEndPos != RelativeEndPos && foundPosition == RelativeEndPos - selectedWord.length() + 1)) {
+            selectedBlock.replace(expression, "\\1\\2\\3\\4\\5");
+
+            textCursor.insertText(selectedBlock);
+            textCursor.setPosition(AbsoluteEndPos - 2 - tag.length());
+
+            ui->SubtitleTextEdit->setTextCursor(textCursor);
+        }
     }
 }
 
@@ -893,17 +916,35 @@ void MainWindow::SubCursorPosChanged() {
     QString Tags[] = { "b", "i", "u", "s" };
     QToolButton *Buttons[] = { ui->SubBoldButton, ui->SubItalicButton, ui->SubUnderlineButton, ui->SubStrikeoutButton };
 
-    if (!textCursor.hasSelection()) {
-        for (int i = 0; i < TagsLength; i++) Buttons[i]->setChecked(false);
-
-        return;
+    if (textCursor.hasSelection()) {
+        QString selectedText(textCursor.selectedText());
+        for (int i = 0; i < TagsLength; i++) {
+            QString regExp("<" + Tags[i] + ">(.*)</" + Tags[i] + ">");
+            Buttons[i]->setChecked(QRegExp(regExp).exactMatch(selectedText));
+        }
     }
+    else {
+        textCursor.select(QTextCursor::WordUnderCursor);
+        QString selectedWord = textCursor.selectedText();
 
-    QString selectedText(textCursor.selectedText());
+        int AbsoluteEndPos = textCursor.position();
+        int RelativeEndPos = textCursor.positionInBlock();
 
-    for (int i = 0; i < TagsLength; i++) {
-        QString regExp("<" + Tags[i] + ">(.*)</" + Tags[i] + ">");
-        Buttons[i]->setChecked(QRegExp(regExp).exactMatch(selectedText));
+        textCursor.select(QTextCursor::BlockUnderCursor);
+        QString selectedBlock = textCursor.selectedText();
+
+        for (int i = 0; i < TagsLength; i++) {
+            QRegExp expression(".*<" + Tags[i] + ">.*(" + selectedWord + ").*</" + Tags[i] + ">.*");
+            expression.indexIn(selectedBlock, 0, QRegExp::CaretAtOffset);
+            int foundPosition = expression.pos(1);
+
+            if (AbsoluteEndPos == RelativeEndPos) {
+                Buttons[i]->setChecked(foundPosition == RelativeEndPos - selectedWord.length());
+            }
+            else {
+                Buttons[i]->setChecked(foundPosition == RelativeEndPos - selectedWord.length() + 1);
+            }
+        }
     }
 }
 
