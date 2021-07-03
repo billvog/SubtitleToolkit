@@ -1,5 +1,5 @@
 <p align="center" title="Subtitle Toolkit icon">
-  <img height=256 src="https://raw.githubusercontent.com/billvog/SubtitleToolkit/main/SubtitleToolkit/Assets/colored-icon.png"/>
+  <img height=256 src="https://raw.githubusercontent.com/billvog/SubtitleToolkit/main/src/Assets/colored-icon.png"/>
 </p>
 
 # Subtitle Toolkit
