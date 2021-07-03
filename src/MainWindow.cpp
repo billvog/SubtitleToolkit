@@ -272,7 +272,7 @@ void MainWindow::SetWindowTitle(const QString title) {
 bool MainWindow::CheckIfSaved() {
   if (hasFileOpen) {
     if (!isSaved) {
-      int result = QMessageBox::question(this, "Confirm", "File \"" + QFileInfo(SubFilePath).fileName() + "\" has changed.\nDo you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
+      int result = QMessageBox::question(this, "Confirm", "File \"" + QFileInfo(SubFilePath).fileName() + "\" has changed. \nDo you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
       if (result == QMessageBox::Yes) {
         SaveAction();
       }
@@ -357,13 +357,13 @@ void MainWindow::SaveAction() {
   QString suffix(QFileInfo(SubFilePath).suffix());
   if (suffix == "srt") {
     if (!SubParser::ExportSrt(Subtitles, SubFilePath)) {
-      QMessageBox::critical(this, "Error", "Could't save subtitle file to \"" + SubFilePath + "\"");
+      QMessageBox::critical(this, "Error", "Could't save file to \"" + SubFilePath + "\"");
       return;
     }
   }
   else if (suffix == "vtt") {
     if (!SubParser::ExportVtt(Subtitles, SubFilePath)) {
-      QMessageBox::critical(this, "Error", "Could't save subtitle file to \"" + SubFilePath + "\"");
+      QMessageBox::critical(this, "Error", "Could't save file to \"" + SubFilePath + "\"");
       return;
     }
   }
@@ -385,13 +385,13 @@ void MainWindow::SaveAsAction() {
   QString suffix(QFileInfo(file).suffix());
   if (suffix == "srt") {
     if (!SubParser::ExportSrt(Subtitles, file)) {
-      QMessageBox::critical(this, "Error", "Could't save subtitle file to \"" + file + "\"");
+      QMessageBox::critical(this, "Error", "Could't save file to \"" + file + "\"");
       return;
     }
   }
   else if (suffix == "vtt") {
     if (!SubParser::ExportVtt(Subtitles, file)) {
-      QMessageBox::critical(this, "Error", "Could't save subtitle file to \"" + file + "\"");
+      QMessageBox::critical(this, "Error", "Could't save file to \"" + file + "\"");
       return;
     }
   }
@@ -865,6 +865,11 @@ void MainWindow::GotoNextSub() {
 }
 
 void MainWindow::AdjustSubtitles() {
+  if (!hasFileOpen) {
+    QMessageBox::critical(this, "Error", "You need to open a file first");
+    return;
+  }
+
   int maxValue = 1000;
   double adjustFactor = QInputDialog::getDouble(this, "Adjust", "Enter adjust factor value (seconds): ", 0, -maxValue, maxValue, 3);
 
@@ -1062,7 +1067,7 @@ bool MainWindow::ApplySubtitles(const QList<SubtitleItem> &items) {
 
 void MainWindow::ApplySubtitlePressed() {
   if (!hasFileOpen) {
-    QMessageBox::critical(this, "Error", "Open a subtitle file first");
+    QMessageBox::critical(this, "Error", "You need to open a file first");
     return;
   }
 
@@ -1084,12 +1089,12 @@ void MainWindow::ApplySubtitlePressed() {
 
 void MainWindow::RemoveSubtitle() {
   if (!hasFileOpen) {
-      QMessageBox::critical(this, "Error", "Open a subtitle file first");
+      QMessageBox::critical(this, "Error", "You need to open a file first");
       return;
   }
 
   if (EditingSubtitleIndex < 0) {
-      QMessageBox::warning(this, "Warning", "Please, select a subtitle first");
+      QMessageBox::warning(this, "Warning", "You need to select a subtitle first");
       return;
   }
 
