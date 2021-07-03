@@ -17,6 +17,7 @@
 #include <QGraphicsView>
 #include <QGraphicsDropShadowEffect>
 #include <QMediaPlayer>
+#include <QInputDialog>
 
 #include "AppInfo.h"
 #include "AboutDialog.h"
@@ -105,6 +106,9 @@ private slots:
   // Edit Menu
   void UndoAction();
   void RedoAction();
+  void GotoPreviousSub();
+  void GotoNextSub();
+  void AdjustSubtitles();
 
   // Media Menu
   void OpenMediaAction();
@@ -139,8 +143,6 @@ private slots:
   void SelectSubFromTable(int row);
 
   void SubTableRowClicked(QModelIndex index);
-  void GotoPreviousSub();
-  void GotoNextSub();
 
   void SubShowTimeChanged();
   void SubHideTimeChanged();
@@ -156,6 +158,9 @@ private slots:
 
   void SubTextToggleTag(const QString &tag);
 
-  void ApplySubtitle();
+  void ApplySubtitlePressed();
   void RemoveSubtitle();
+
+  bool ApplySubtitle(const SubtitleItem &item, const int index);
+  bool ApplySubtitles(const QList<SubtitleItem> &items);
 };

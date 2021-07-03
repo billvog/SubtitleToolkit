@@ -172,9 +172,6 @@
         <height>16777215</height>
        </size>
       </property>
-      <property name="title">
-       <string>Subtitle</string>
-      </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="4" column="2" colspan="2">
         <widget class="QPlainTextEdit" name="SubtitleTextEdit">
@@ -192,12 +189,9 @@
          </property>
          <property name="font">
           <font>
-           <family>Menlo</family>
+           <family>Courier</family>
+           <pointsize>14</pointsize>
           </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">padding: 3px;
-background-color: #fff;</string>
          </property>
          <property name="placeholderText">
           <string>Subtitle...</string>
@@ -633,13 +627,6 @@ background-color: #fff;</string>
     <addaction name="separator"/>
     <addaction name="menuAudio"/>
    </widget>
-   <widget class="QMenu" name="menuSubtitle">
-    <property name="title">
-     <string>Subtitle</string>
-    </property>
-    <addaction name="ActionSubGotoPrevious"/>
-    <addaction name="ActionSubGotoNext"/>
-   </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
@@ -647,6 +634,10 @@ background-color: #fff;</string>
     <addaction name="ActionEditUndo"/>
     <addaction name="ActionEditRedo"/>
     <addaction name="separator"/>
+    <addaction name="ActionEditGotoPrevious"/>
+    <addaction name="ActionEditGotoNext"/>
+    <addaction name="separator"/>
+    <addaction name="ActionEditAdjust"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -657,7 +648,6 @@ background-color: #fff;</string>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuMedia"/>
-   <addaction name="menuSubtitle"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="ActionNew">
@@ -771,7 +761,7 @@ background-color: #fff;</string>
     <string>Ctrl+Down</string>
    </property>
   </action>
-  <action name="ActionSubGotoPrevious">
+  <action name="ActionEditGotoPrevious">
    <property name="text">
     <string>Goto Previous</string>
    </property>
@@ -782,7 +772,7 @@ background-color: #fff;</string>
     <string>Ctrl+Left</string>
    </property>
   </action>
-  <action name="ActionSubGotoNext">
+  <action name="ActionEditGotoNext">
    <property name="text">
     <string>Goto Next</string>
    </property>
@@ -812,6 +802,11 @@ background-color: #fff;</string>
   <action name="ActionHelpAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="ActionEditAdjust">
+   <property name="text">
+    <string>Adjust</string>
    </property>
   </action>
  </widget>
