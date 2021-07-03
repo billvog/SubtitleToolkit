@@ -10,19 +10,19 @@ class SubtitleTextHighlighter : public QSyntaxHighlighter {
   Q_OBJECT
 
   public:
-      SubtitleTextHighlighter(QTextDocument *parent = 0);
+    SubtitleTextHighlighter(QTextDocument *parent = 0);
 
   protected:
-      void highlightBlock(const QString &text) override;
+    void highlightBlock(const QString &text) override;
 
   private:
-      struct HighlightingRule {
-          QRegularExpression pattern;
-          QTextCharFormat format;
-      };
+    struct HighlightingRule {
+        QRegularExpression pattern;
+        QTextCharFormat format;
+    };
 
-      QVector<HighlightingRule> highlightingRules;
+    QVector<HighlightingRule> highlightingRules;
 
-      QRegularExpression tagExpression;
-      QTextCharFormat tagFormat;
+    QRegularExpression tagExpression;
+    QTextCharFormat tagFormat;
 };

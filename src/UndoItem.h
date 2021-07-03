@@ -1,11 +1,10 @@
 #pragma once
 
 #include <QString>
-
 #include "SubtitleItem.h"
 
 class UndoItem {
-public:
+  public:
     enum ItemType {
         ADD,
         REMOVE,
@@ -20,7 +19,8 @@ public:
     SubtitleItem getNewItem() const { return NewItem; }
 
     friend bool operator==(const UndoItem& lhs, const UndoItem& rhs);
-private:
+
+  private:
     ItemType Type;
     SubtitleItem OldItem;
     SubtitleItem NewItem;

@@ -5,22 +5,22 @@
 
 class SubtitleItem {
 public:
-    SubtitleItem();
-    SubtitleItem(QTime showTimestamp, QTime hideTimestamp, QString subtitle);
+  SubtitleItem();
+  SubtitleItem(QTime showTimestamp, QTime hideTimestamp, QString subtitle);
 private:
-    QTime ShowTimestamp;
-    QTime HideTimestamp;
-    QString Subtitle;
+  QTime ShowTimestamp;
+  QTime HideTimestamp;
+  QString Subtitle;
 public:
-    void setShowTimestamp(QTime time);
-    void setHideTimestamp(QTime time);
-    void setSubtitle(QString value);
+  void setShowTimestamp(QTime time);
+  void setHideTimestamp(QTime time);
+  void setSubtitle(QString value);
 
-    QTime getShowTimestamp() const { return ShowTimestamp; }
-    QTime getHideTimestamp() const { return HideTimestamp; }
-    QString getSubtitle() const { return Subtitle; }
+  QTime getShowTimestamp() const { return ShowTimestamp; }
+  QTime getHideTimestamp() const { return HideTimestamp; }
+  QString getSubtitle() const { return Subtitle; }
 
-    static bool SortByShowTime(const SubtitleItem &s1, const SubtitleItem &s2);
+  static bool SortByShowTime(const SubtitleItem &s1, const SubtitleItem &s2);
 
-    friend bool operator==(const SubtitleItem& lhs, const SubtitleItem& rhs);
+  friend bool operator==(const SubtitleItem& lhs, const SubtitleItem& rhs);
 };
