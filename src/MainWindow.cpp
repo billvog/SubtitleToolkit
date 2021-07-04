@@ -139,7 +139,7 @@ void MainWindow::ConnectEvents() {
   connect(ui->ActionEditRedo, SIGNAL(triggered()), this, SLOT(RedoAction()));
   connect(ui->ActionEditGotoPrevious, SIGNAL(triggered()), this, SLOT(GotoPreviousSub()));
   connect(ui->ActionEditGotoNext, SIGNAL(triggered()), this, SLOT(GotoNextSub()));
-  connect(ui->ActionEditAdjust, SIGNAL(triggered()), this, SLOT(AdjustSubtitles()));
+  connect(ui->ActionEditDelay, SIGNAL(triggered()), this, SLOT(DelaySubtitles()));
 
   // Media Menu
   connect(ui->ActionMediaOpen, SIGNAL(triggered()), this, SLOT(OpenMediaAction()));
@@ -864,21 +864,21 @@ void MainWindow::GotoNextSub() {
   SelectSubFromTable(PrevEditinSubtitleIndex + 1);
 }
 
-void MainWindow::AdjustSubtitles() {
+void MainWindow::DelaySubtitles() {
   if (!hasFileOpen) {
     QMessageBox::critical(this, "Error", "You need to open a file first");
     return;
   }
 
   int maxValue = 1000;
-  double adjustFactor = QInputDialog::getDouble(this, "Adjust", "Enter adjust factor value (seconds): ", 0, -maxValue, maxValue, 3);
+  double delayValue = QInputDialog::getDouble(this, "Delay", "Delay time (seconds): ", 0, -maxValue, maxValue, 3);
 
   QList<SubtitleItem> newItems;
 
   for (int idx = 0; idx < Subtitles.length(); idx++) {
     SubtitleItem item = Subtitles.at(idx);
-    item.setShowTimestamp(item.getShowTimestamp().addMSecs(adjustFactor * 1000));
-    item.setHideTimestamp(item.getHideTimestamp().addMSecs(adjustFactor * 1000));
+    item.setShowTimestamp(item.getShowTimestamp().addMSecs(delayValue * 1000));
+    item.setHideTimestamp(item.getHideTimestamp().addMSecs(delayValue * 1000));
 
     newItems.append(item);
   }

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="Resources.qrc">
-    <normaloff>:/Icons/Assets/colored-icon.ico</normaloff>:/Icons/Assets/colored-icon.ico</iconset>
+    <normaloff>:/Assets/colored-icon.ico</normaloff>:/Assets/colored-icon.ico</iconset>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -637,7 +637,7 @@
     <addaction name="ActionEditGotoPrevious"/>
     <addaction name="ActionEditGotoNext"/>
     <addaction name="separator"/>
-    <addaction name="ActionEditAdjust"/>
+    <addaction name="ActionEditDelay"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -796,7 +796,7 @@
     <string>Redo</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Y</string>
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="ActionHelpAbout">
@@ -804,9 +804,9 @@
     <string>About</string>
    </property>
   </action>
-  <action name="ActionEditAdjust">
+  <action name="ActionEditDelay">
    <property name="text">
-    <string>Adjust</string>
+    <string>Delay</string>
    </property>
   </action>
  </widget>

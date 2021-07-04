@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="Resources.qrc">
-    <normaloff>:/Icons/Assets/colored-icon.ico</normaloff>:/Icons/Assets/colored-icon.ico</iconset>
+    <normaloff>:/Assets/colored-icon.ico</normaloff>:/Assets/colored-icon.ico</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -42,9 +42,9 @@
   <widget class="QLabel" name="AboutText">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>120</y>
-     <width>381</width>
+     <width>361</width>
      <height>141</height>
     </rect>
    </property>
@@ -68,7 +68,7 @@
     </rect>
    </property>
    <property name="pixmap">
-    <pixmap resource="Resources.qrc">:/Icons/Assets/colored-icon.ico</pixmap>
+    <pixmap resource="Resources.qrc">:/Assets/colored-icon.ico</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

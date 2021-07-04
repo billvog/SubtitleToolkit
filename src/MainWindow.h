@@ -108,7 +108,7 @@ private slots:
   void RedoAction();
   void GotoPreviousSub();
   void GotoNextSub();
-  void AdjustSubtitles();
+  void DelaySubtitles();
 
   // Media Menu
   void OpenMediaAction();
