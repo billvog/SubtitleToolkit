@@ -1,4 +1,6 @@
 #pragma once
 
-#define PROGRAM_VERSION "1.0.0"
-#define PROGRAM_NAME "Subtitle Toolkit"
+namespace SubStudio {
+	const std::string displayName = "Subtitle Studio";
+	const std::string version = "1.0.0";
+}

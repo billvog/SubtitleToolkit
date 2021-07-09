@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "ui_MainWindow.h"
+#include "../Forms/ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -126,70 +126,71 @@ void MainWindow::SetupSubtitlesTable() {
 }
 
 void MainWindow::ConnectEvents() {
-  // File Menu
-  connect(ui->ActionNew, SIGNAL(triggered()), this, SLOT(NewAction()));
-  connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(OpenAction()));
-  connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(SaveAction()));
-  connect(ui->ActionSaveAs, SIGNAL(triggered()), this, SLOT(SaveAsAction()));
-  connect(ui->ActionClose, SIGNAL(triggered()), this, SLOT(CloseAction()));
-  connect(ui->ActionExit, SIGNAL(triggered()), this, SLOT(ExitAction()));
+	// File Menu
+	connect(ui->ActionNew, SIGNAL(triggered()), this, SLOT(NewAction()));
+	connect(ui->ActionOpen, SIGNAL(triggered()), this, SLOT(OpenAction()));
+	connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(SaveAction()));
+	connect(ui->ActionSaveAs, SIGNAL(triggered()), this, SLOT(SaveAsAction()));
+	connect(ui->ActionClose, SIGNAL(triggered()), this, SLOT(CloseAction()));
+	connect(ui->ActionExit, SIGNAL(triggered()), this, SLOT(ExitAction()));
 
-  // Edit Menu
-  connect(ui->ActionEditUndo, SIGNAL(triggered()), this, SLOT(UndoAction()));
-  connect(ui->ActionEditRedo, SIGNAL(triggered()), this, SLOT(RedoAction()));
-  connect(ui->ActionEditGotoPrevious, SIGNAL(triggered()), this, SLOT(GotoPreviousSub()));
-  connect(ui->ActionEditGotoNext, SIGNAL(triggered()), this, SLOT(GotoNextSub()));
-  connect(ui->ActionEditDelay, SIGNAL(triggered()), this, SLOT(DelaySubtitles()));
+	// Edit Menu
+	connect(ui->ActionEditUndo, SIGNAL(triggered()), this, SLOT(UndoAction()));
+	connect(ui->ActionEditRedo, SIGNAL(triggered()), this, SLOT(RedoAction()));
+	connect(ui->ActionEditGotoPrevious, SIGNAL(triggered()), this, SLOT(GotoPreviousSub()));
+	connect(ui->ActionEditGotoNext, SIGNAL(triggered()), this, SLOT(GotoNextSub()));
+	connect(ui->ActionEditDelay, SIGNAL(triggered()), this, SLOT(DelaySubtitles()));
 
-  // Media Menu
-  connect(ui->ActionMediaOpen, SIGNAL(triggered()), this, SLOT(OpenMediaAction()));
-  connect(ui->ActionMediaClose, SIGNAL(triggered()), this, SLOT(CloseMediaAction()));
-  connect(ui->ActionMediaPlayPause, SIGNAL(triggered()), this, SLOT(TogglePlayVideo()));
-  connect(ui->ActionMediaStop, SIGNAL(triggered()), this, SLOT(StopVideo()));
-  connect(ui->ActionMediaSeekBackward, SIGNAL(triggered()), this, SLOT(SeekBackwards()));
-  connect(ui->ActionMediaSeekForward, SIGNAL(triggered()), this, SLOT(SeekForwards()));
-  connect(ui->ActionMediaAudioVolumeUp, SIGNAL(triggered()), this, SLOT(VolumeUp()));
-  connect(ui->ActionMediaAudioVolumeDown, SIGNAL(triggered()), this, SLOT(VolumeDown()));
-  connect(ui->ActionMediaAudioToggleMute, SIGNAL(triggered()), this, SLOT(ToggleMuteAudio()));
+	// Media Menu
+	connect(ui->ActionMediaOpen, SIGNAL(triggered()), this, SLOT(OpenMediaAction()));
+	connect(ui->ActionMediaClose, SIGNAL(triggered()), this, SLOT(CloseMediaAction()));
+	connect(ui->ActionMediaPlayPause, SIGNAL(triggered()), this, SLOT(TogglePlayVideo()));
+	connect(ui->ActionMediaStop, SIGNAL(triggered()), this, SLOT(StopVideo()));
+	connect(ui->ActionMediaSeekBackward, SIGNAL(triggered()), this, SLOT(SeekBackwards()));
+	connect(ui->ActionMediaSeekForward, SIGNAL(triggered()), this, SLOT(SeekForwards()));
+	connect(ui->ActionMediaAudioVolumeUp, SIGNAL(triggered()), this, SLOT(VolumeUp()));
+	connect(ui->ActionMediaAudioVolumeDown, SIGNAL(triggered()), this, SLOT(VolumeDown()));
+	connect(ui->ActionMediaAudioToggleMute, SIGNAL(triggered()), this, SLOT(ToggleMuteAudio()));
 
-  // Help Menu
-  connect(ui->ActionHelpAbout, SIGNAL(triggered()), this, SLOT(AboutHelpAction()));
+	// Help Menu
+	connect(ui->ActionHelpAbout, SIGNAL(triggered()), this, SLOT(AboutHelpAction()));
+	connect(ui->ActionHelpAboutQt, SIGNAL(triggered()), this, SLOT(AboutQtHelpAction()));
 
-  // Media Player
-  connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(VideoSeekableChanged(bool)));
-  connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(VideoPositionChanged(qint64)));
-  connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(VideoDurationChanged(qint64)));
+	// Media Player
+	connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(VideoSeekableChanged(bool)));
+	connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(VideoPositionChanged(qint64)));
+	connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(VideoDurationChanged(qint64)));
 
-  connect(ui->TimelineSlider, SIGNAL(sliderMoved(int)), this, SLOT(TimelineSliderChanged(int)));
-  connect(ui->TogglePlayButton, SIGNAL(clicked()), this, SLOT(TogglePlayVideo()));
-  connect(ui->StopButton, SIGNAL(clicked()), this, SLOT(StopVideo()));
+	connect(ui->TimelineSlider, SIGNAL(sliderMoved(int)), this, SLOT(TimelineSliderChanged(int)));
+	connect(ui->TogglePlayButton, SIGNAL(clicked()), this, SLOT(TogglePlayVideo()));
+	connect(ui->StopButton, SIGNAL(clicked()), this, SLOT(StopVideo()));
 
-  connect(ui->BackwardSeekButton, SIGNAL(clicked()), this, SLOT(SeekBackwards()));
-  connect(ui->ForwardSeekButton, SIGNAL(clicked()), this, SLOT(SeekForwards()));
+	connect(ui->BackwardSeekButton, SIGNAL(clicked()), this, SLOT(SeekBackwards()));
+	connect(ui->ForwardSeekButton, SIGNAL(clicked()), this, SLOT(SeekForwards()));
 
-  connect(ui->ToggleMuteButton, SIGNAL(clicked()), this, SLOT(ToggleMuteAudio()));
-  connect(ui->VolumeSlider, SIGNAL(sliderMoved(int)), this, SLOT(VolumeSliderChanged(int)));
+	connect(ui->ToggleMuteButton, SIGNAL(clicked()), this, SLOT(ToggleMuteAudio()));
+	connect(ui->VolumeSlider, SIGNAL(sliderMoved(int)), this, SLOT(VolumeSliderChanged(int)));
 
-  // Subtitle Group
-  connect(ui->SubTableView, SIGNAL(clicked(QModelIndex)), this, SLOT(SubTableRowClicked(QModelIndex)));
+	// Subtitle Group
+	connect(ui->SubTableView, SIGNAL(clicked(QModelIndex)), this, SLOT(SubTableRowClicked(QModelIndex)));
 
-  connect(ui->PrevSubButton, SIGNAL(clicked()), this, SLOT(GotoPreviousSub()));
-  connect(ui->NextSubButton, SIGNAL(clicked()), this, SLOT(GotoNextSub()));
+	connect(ui->PrevSubButton, SIGNAL(clicked()), this, SLOT(GotoPreviousSub()));
+	connect(ui->NextSubButton, SIGNAL(clicked()), this, SLOT(GotoNextSub()));
 
-  connect(ui->ShowSubTimeEdit, SIGNAL(editingFinished()), this, SLOT(SubShowTimeChanged()));
-  connect(ui->HideSubTimeEdit, SIGNAL(editingFinished()), this, SLOT(SubHideTimeChanged()));
-  connect(ui->DurationSubTimeEdit, SIGNAL(editingFinished()), this, SLOT(SubDurationChanged()));
+	connect(ui->ShowSubTimeEdit, SIGNAL(editingFinished()), this, SLOT(SubShowTimeChanged()));
+	connect(ui->HideSubTimeEdit, SIGNAL(editingFinished()), this, SLOT(SubHideTimeChanged()));
+	connect(ui->DurationSubTimeEdit, SIGNAL(editingFinished()), this, SLOT(SubDurationChanged()));
 
-  connect(ui->SubtitleTextEdit, SIGNAL(textChanged()), this, SLOT(SubTextChanged()));
-  connect(ui->SubtitleTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(SubCursorPosChanged()));
+	connect(ui->SubtitleTextEdit, SIGNAL(textChanged()), this, SLOT(SubTextChanged()));
+	connect(ui->SubtitleTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(SubCursorPosChanged()));
 
-  connect(ui->SubBoldButton,  SIGNAL(clicked()), this, SLOT(SubBoldClicked()));
-  connect(ui->SubItalicButton,  SIGNAL(clicked()), this, SLOT(SubItalicClicked()));
-  connect(ui->SubUnderlineButton,  SIGNAL(clicked()), this, SLOT(SubUnderlineClicked()));
-  connect(ui->SubStrikeoutButton,  SIGNAL(clicked()), this, SLOT(SubStrikeoutClicked()));
+	connect(ui->SubBoldButton,  SIGNAL(clicked()), this, SLOT(SubBoldClicked()));
+	connect(ui->SubItalicButton,  SIGNAL(clicked()), this, SLOT(SubItalicClicked()));
+	connect(ui->SubUnderlineButton,  SIGNAL(clicked()), this, SLOT(SubUnderlineClicked()));
+	connect(ui->SubStrikeoutButton,  SIGNAL(clicked()), this, SLOT(SubStrikeoutClicked()));
 
-  connect(ui->ApplySubButton, SIGNAL(clicked()), this, SLOT(ApplySubtitlePressed()));
-  connect(ui->RemoveSubButton, SIGNAL(clicked()), this, SLOT(RemoveSubtitle()));
+	connect(ui->ApplySubButton, SIGNAL(clicked()), this, SLOT(ApplySubtitlePressed()));
+	connect(ui->RemoveSubButton, SIGNAL(clicked()), this, SLOT(RemoveSubtitle()));
 }
 
 void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
@@ -262,10 +263,10 @@ QTime MainWindow::MsToTime(int ms) {
 
 void MainWindow::SetWindowTitle(const QString title) {
   if (title.length() == 0) {
-    setWindowTitle(QString(PROGRAM_NAME));
+    setWindowTitle(QString::fromStdString(SubStudio::displayName));
   }
   else {
-    setWindowTitle(title + " – " + QString(PROGRAM_NAME));
+    setWindowTitle(title + " – " + QString::fromStdString(SubStudio::displayName));
   }
 }
 
@@ -376,7 +377,7 @@ void MainWindow::SaveAction() {
 }
 
 void MainWindow::SaveAsAction() {
-  QString file = QFileDialog::getSaveFileName(this, "Save Subtitle File As", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), SubtitleFileSelector);
+  QString file = QFileDialog::getSaveFileName(this, "Save File As", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), SubtitleFileSelector);
 
   if (file.isEmpty()) {
     return;
@@ -611,6 +612,10 @@ void MainWindow::CloseMediaAction() {
 void MainWindow::AboutHelpAction() {
   AboutDialog *dialog = new AboutDialog(this);
   dialog->show();
+}
+
+void MainWindow::AboutQtHelpAction() {
+	QMessageBox::aboutQt(this);
 }
 
 // Media player

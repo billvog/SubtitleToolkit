@@ -1,0 +1,4 @@
+# I'm using this file to build xcode project files with cmake.
+# It sets an environment variable called CMAKE_PREFIX_PATH to
+# the installation path of qt. Then it calls cmake.
+build.sh

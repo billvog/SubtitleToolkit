@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
 
   // Show splash image while loading
-  QPixmap splashImage(":/Assets/splash.svg");
+  QPixmap splashImage(":/assets/splash.svg");
   QSplashScreen splash(splashImage);
   splash.show();
 

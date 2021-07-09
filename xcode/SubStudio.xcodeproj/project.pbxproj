@@ -1,0 +1,1058 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		7FD6F793017541F7BFC38FAB /* SubStudio_autogen */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 09B483ADE45443BE8785D1FE /* Build configuration list for PBXAggregateTarget "SubStudio_autogen" */;
+			buildPhases = (
+				A0618BE7BF3BD05487CE7690 /* Generate CMakeFiles/SubStudio_autogen */,
+			);
+			dependencies = (
+				0DC5761F452A49DA96686D28 /* PBXTargetDependency */,
+			);
+			name = SubStudio_autogen;
+			productName = SubStudio_autogen;
+		};
+		A3DFEAA0F31F4D6D95DD1A98 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3A9CFC3E3A9446E68869E3CB /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				E6D06B04FE956009F5F9634D /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		DF5971E55C7F4E989FEC7BC4 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F2F504FB4DAD4DACA53A1164 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				E126E7D2735AAFB1E8540DDC /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				6CA1E7132E9943FFA3752A0B /* PBXTargetDependency */,
+				3A1CCBB7FB1749B3B9E753B3 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		01B55708B12E4743B9FD36D1 /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.cpp */ = {isa = PBXBuildFile; fileRef = 0A06638E7E6049CDB56D09BC /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.cpp */; };
+		0BD1B26E2F2E4A8BA5BFB40B /* /Users/basiles/Code/CPP/SubStudio/forms/AboutDialog.ui */ = {isa = PBXBuildFile; fileRef = 89B67481A3DA49BC83472958 /* /Users/basiles/Code/CPP/SubStudio/forms/AboutDialog.ui */; };
+		0EA33BDB79274E48B2B47E50 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.h */ = {isa = PBXBuildFile; fileRef = B8ABFB3163414E608A149583 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.h */; };
+		2180EBFFEFC4433AA87D890A /* /Users/basiles/Code/CPP/SubStudio/src/AppInfo.h */ = {isa = PBXBuildFile; fileRef = C4492A160C8845C2A8FB3160 /* /Users/basiles/Code/CPP/SubStudio/src/AppInfo.h */; };
+		2C98E820068143C6A288F077 /* /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp */ = {isa = PBXBuildFile; fileRef = BE71F523E595429798FB6EAB /* /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp */; };
+		361F058647114D0C868A736D /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.h */ = {isa = PBXBuildFile; fileRef = A9B115DC3A594A5BA5F96F30 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.h */; };
+		3C9D4C85484349368B808E86 /* /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist */ = {isa = PBXBuildFile; fileRef = 41E3E46BF760403F87C7D4DF /* /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist */; };
+		4251BB1AF6BD4275B9E7370E /* /Users/basiles/Code/CPP/SubStudio/forms/MainWindow.ui */ = {isa = PBXBuildFile; fileRef = D94C920A66C542268F7F63AA /* /Users/basiles/Code/CPP/SubStudio/forms/MainWindow.ui */; };
+		4986ACCEA27545148D810B83 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.h */ = {isa = PBXBuildFile; fileRef = B59F29A004ED4FB59C66CAA1 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.h */; };
+		4A6C544701744FA082D3A338 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.cpp */ = {isa = PBXBuildFile; fileRef = 2250251FF18443149D6F1662 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.cpp */; };
+		56EA819813F74B4D9A6A5131 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.cpp */ = {isa = PBXBuildFile; fileRef = 5D149AA2B18848198CAD3990 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.cpp */; };
+		665A169D2E6C43369F910225 /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 9816C82A733E4D5DB98726CA /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */; };
+		7684EFDDD8FC4609A6058E86 /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.h */ = {isa = PBXBuildFile; fileRef = 99C8C2DB44C140FDBD57086A /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.h */; };
+		965D674B7D8B43C8ACBA112A /* /Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/mocs_compilation.cpp */ = {isa = PBXBuildFile; fileRef = 77A8941229F14085AB95C726 /* /Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/mocs_compilation.cpp */; };
+		A2379640B76E4E7284177DDC /* /Users/basiles/Code/CPP/SubStudio/src/version.h */ = {isa = PBXBuildFile; fileRef = 883EC237F0B44BEA8C25E3A5 /* /Users/basiles/Code/CPP/SubStudio/src/version.h */; };
+		A5ED3235A56646C5A37FB70D /* /Users/basiles/Code/CPP/SubStudio/Resources.qrc */ = {isa = PBXBuildFile; fileRef = 22F0528C5E4D4BCA88A0080B /* /Users/basiles/Code/CPP/SubStudio/Resources.qrc */; };
+		AD067BE591384A948854B01D /* /Users/basiles/Code/CPP/SubStudio/src/main.cpp */ = {isa = PBXBuildFile; fileRef = 05730903F96F47C8ACD15BA4 /* /Users/basiles/Code/CPP/SubStudio/src/main.cpp */; };
+		BC40F56780CB4EA9B5290B6D /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.h */ = {isa = PBXBuildFile; fileRef = 9FF5C1034FD84FCF8B3A621A /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.h */; };
+		C52AFA18C5744DEBA9F13B5B /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.cpp */ = {isa = PBXBuildFile; fileRef = 109991A767E240749312A06A /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.cpp */; };
+		CC210300218A4ED2BAF3536E /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.h */ = {isa = PBXBuildFile; fileRef = C5C7B56DBE8B43A898590E27 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.h */; };
+		E9982652FBF74DC1BA340F14 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.cpp */ = {isa = PBXBuildFile; fileRef = D6CAE8E09DC545DBB49C5A77 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.cpp */; };
+		F25CA639FA754198870CD7DB /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.cpp */ = {isa = PBXBuildFile; fileRef = 89CE08F97D594623AE715D6D /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		2DAE9B83D2284E2089672A59 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		717C017DB4A74BC593EF346A /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		95545D823C8A495BAADDE43B /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		DBB91C7594794143AEE2C65F /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		03390032BDE74602A93E33B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7235AE08D564D07AC5FB170 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDA81292D52E4CA393BCB370;
+			remoteInfo = SubStudio;
+		};
+		1D9F99DDEDB04779B57E7AC3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7235AE08D564D07AC5FB170 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3DFEAA0F31F4D6D95DD1A98;
+			remoteInfo = ZERO_CHECK;
+		};
+		260818D8D4AF42A3A6EA0B88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7235AE08D564D07AC5FB170 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3DFEAA0F31F4D6D95DD1A98;
+			remoteInfo = ZERO_CHECK;
+		};
+		65C804C068BA4D798CB3983B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7235AE08D564D07AC5FB170 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3DFEAA0F31F4D6D95DD1A98;
+			remoteInfo = ZERO_CHECK;
+		};
+		F153ED78FF20409CB9B4DEA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7235AE08D564D07AC5FB170 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7FD6F793017541F7BFC38FAB;
+			remoteInfo = SubStudio_autogen;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		05730903F96F47C8ACD15BA4 /* /Users/basiles/Code/CPP/SubStudio/src/main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		0A06638E7E6049CDB56D09BC /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = AboutDialog.cpp; path = src/AboutDialog.cpp; sourceTree = SOURCE_ROOT; };
+		109991A767E240749312A06A /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = UndoItem.cpp; path = src/UndoItem.cpp; sourceTree = SOURCE_ROOT; };
+		2250251FF18443149D6F1662 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = SubtitleItem.cpp; path = src/SubtitleItem.cpp; sourceTree = SOURCE_ROOT; };
+		22F0528C5E4D4BCA88A0080B /* /Users/basiles/Code/CPP/SubStudio/Resources.qrc */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = Resources.qrc; path = Resources.qrc; sourceTree = SOURCE_ROOT; };
+		41E3E46BF760403F87C7D4DF /* /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; name = Info.plist; path = xcode/CMakeFiles/SubStudio.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		5D149AA2B18848198CAD3990 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = MainWindow.cpp; path = src/MainWindow.cpp; sourceTree = SOURCE_ROOT; };
+		77A8941229F14085AB95C726 /* /Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/mocs_compilation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = mocs_compilation.cpp; path = xcode/SubStudio_autogen/mocs_compilation.cpp; sourceTree = SOURCE_ROOT; };
+		793DF3B9A79A49A6B97F8BCE /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		883EC237F0B44BEA8C25E3A5 /* /Users/basiles/Code/CPP/SubStudio/src/version.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = version.h; path = src/version.h; sourceTree = SOURCE_ROOT; };
+		89B67481A3DA49BC83472958 /* /Users/basiles/Code/CPP/SubStudio/forms/AboutDialog.ui */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = AboutDialog.ui; path = forms/AboutDialog.ui; sourceTree = SOURCE_ROOT; };
+		89CE08F97D594623AE715D6D /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = SubtitleTextHighlighter.cpp; path = src/SubtitleTextHighlighter.cpp; sourceTree = SOURCE_ROOT; };
+		9816C82A733E4D5DB98726CA /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		99C8C2DB44C140FDBD57086A /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = UndoItem.h; path = src/UndoItem.h; sourceTree = SOURCE_ROOT; };
+		9FF5C1034FD84FCF8B3A621A /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AboutDialog.h; path = src/AboutDialog.h; sourceTree = SOURCE_ROOT; };
+		A9B115DC3A594A5BA5F96F30 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = MainWindow.h; path = src/MainWindow.h; sourceTree = SOURCE_ROOT; };
+		B52C58F510DB4EF6B188E62C /* SubStudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = SubStudio; sourceTree = BUILT_PRODUCTS_DIR; };
+		B59F29A004ED4FB59C66CAA1 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = SubtitleTextHighlighter.h; path = src/SubtitleTextHighlighter.h; sourceTree = SOURCE_ROOT; };
+		B8ABFB3163414E608A149583 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = SubtitleItem.h; path = src/SubtitleItem.h; sourceTree = SOURCE_ROOT; };
+		BE71F523E595429798FB6EAB /* /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = qrc_Resources.cpp; path = xcode/qrc_Resources.cpp; sourceTree = SOURCE_ROOT; };
+		C4492A160C8845C2A8FB3160 /* /Users/basiles/Code/CPP/SubStudio/src/AppInfo.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = AppInfo.h; path = src/AppInfo.h; sourceTree = SOURCE_ROOT; };
+		C5C7B56DBE8B43A898590E27 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = SubParser.h; path = src/SubParser.h; sourceTree = SOURCE_ROOT; };
+		D6CAE8E09DC545DBB49C5A77 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = SubParser.cpp; path = src/SubParser.cpp; sourceTree = SOURCE_ROOT; };
+		D94C920A66C542268F7F63AA /* /Users/basiles/Code/CPP/SubStudio/forms/MainWindow.ui */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = MainWindow.ui; path = forms/MainWindow.ui; sourceTree = SOURCE_ROOT; };
+		F72ED689E0AE4BD0BAA575A0 /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6DBF24418B8F4FE0A31BC0F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		110E6C0A3A4F4C2590DCDCA8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B52C58F510DB4EF6B188E62C /* SubStudio */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3186AB305D5346F89ED99EC0 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		625EC1E597134422B465D38C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				9FF5C1034FD84FCF8B3A621A /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.h */,
+				C4492A160C8845C2A8FB3160 /* /Users/basiles/Code/CPP/SubStudio/src/AppInfo.h */,
+				A9B115DC3A594A5BA5F96F30 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.h */,
+				C5C7B56DBE8B43A898590E27 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.h */,
+				B8ABFB3163414E608A149583 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.h */,
+				B59F29A004ED4FB59C66CAA1 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.h */,
+				99C8C2DB44C140FDBD57086A /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.h */,
+				883EC237F0B44BEA8C25E3A5 /* /Users/basiles/Code/CPP/SubStudio/src/version.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		7DEEC7D957FA4B28BF1915B3 = {
+			isa = PBXGroup;
+			children = (
+				CB0CA740F67A4CE3B8B23AF1 /* SubStudio */,
+				DC7D885718D149888EE8D90E /* SubStudio_autogen */,
+				C4FEE0293DB44989B79CD7AC /* ALL_BUILD */,
+				110E6C0A3A4F4C2590DCDCA8 /* Products */,
+				DCDF73407B6F4900AF96D3D7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8936DD9ACE6D4C3BA78AE347 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		9EF3196A985D47ABB8CA9626 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				0A06638E7E6049CDB56D09BC /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.cpp */,
+				5D149AA2B18848198CAD3990 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.cpp */,
+				D6CAE8E09DC545DBB49C5A77 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.cpp */,
+				2250251FF18443149D6F1662 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.cpp */,
+				89CE08F97D594623AE715D6D /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.cpp */,
+				109991A767E240749312A06A /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.cpp */,
+				05730903F96F47C8ACD15BA4 /* /Users/basiles/Code/CPP/SubStudio/src/main.cpp */,
+				77A8941229F14085AB95C726 /* /Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/mocs_compilation.cpp */,
+				BE71F523E595429798FB6EAB /* /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		C4FEE0293DB44989B79CD7AC /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				8936DD9ACE6D4C3BA78AE347 /* CMake Rules */,
+				793DF3B9A79A49A6B97F8BCE /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		CB0CA740F67A4CE3B8B23AF1 /* SubStudio */ = {
+			isa = PBXGroup;
+			children = (
+				9EF3196A985D47ABB8CA9626 /* Source Files */,
+				625EC1E597134422B465D38C /* Header Files */,
+				CF61816FC7164373889D113D /* Form Files */,
+				DA47655FB45048249E547986 /* Resources */,
+				9816C82A733E4D5DB98726CA /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */,
+				22F0528C5E4D4BCA88A0080B /* /Users/basiles/Code/CPP/SubStudio/Resources.qrc */,
+			);
+			name = SubStudio;
+			sourceTree = "<group>";
+		};
+		CF61816FC7164373889D113D /* Form Files */ = {
+			isa = PBXGroup;
+			children = (
+				89B67481A3DA49BC83472958 /* /Users/basiles/Code/CPP/SubStudio/forms/AboutDialog.ui */,
+				D94C920A66C542268F7F63AA /* /Users/basiles/Code/CPP/SubStudio/forms/MainWindow.ui */,
+			);
+			name = "Form Files";
+			sourceTree = "<group>";
+		};
+		DA47655FB45048249E547986 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				41E3E46BF760403F87C7D4DF /* /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		DC7D885718D149888EE8D90E /* SubStudio_autogen */ = {
+			isa = PBXGroup;
+			children = (
+				3186AB305D5346F89ED99EC0 /* CMake Rules */,
+				F72ED689E0AE4BD0BAA575A0 /* /Users/basiles/Code/CPP/SubStudio/CMakeLists.txt */,
+			);
+			name = SubStudio_autogen;
+			sourceTree = "<group>";
+		};
+		DCDF73407B6F4900AF96D3D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CDA81292D52E4CA393BCB370 /* SubStudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 973E694DAB324937A20A2B57 /* Build configuration list for PBXNativeTarget "SubStudio" */;
+			buildPhases = (
+				A28D95A32FE886251751E719 /* Generate qrc_Resources.cpp */,
+				322C29E835C446E3B4344C10 /* Sources */,
+				6DBF24418B8F4FE0A31BC0F5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2DD90B442FB44D44A7AA5C38 /* PBXTargetDependency */,
+				9077AE7155B84F32BE46E3F4 /* PBXTargetDependency */,
+			);
+			name = SubStudio;
+			productName = SubStudio;
+			productReference = B52C58F510DB4EF6B188E62C /* SubStudio */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F7235AE08D564D07AC5FB170 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1250;
+			};
+			buildConfigurationList = 22AFBECBF19D4842972C34DC /* Build configuration list for PBXProject "SubStudio" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				DBB91C7594794143AEE2C65F /* Debug */,
+				95545D823C8A495BAADDE43B /* Release */,
+				2DAE9B83D2284E2089672A59 /* MinSizeRel */,
+				717C017DB4A74BC593EF346A /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 7DEEC7D957FA4B28BF1915B3;
+			projectDirPath = ../;
+			projectRoot = "";
+			targets = (
+				DF5971E55C7F4E989FEC7BC4 /* ALL_BUILD */,
+				CDA81292D52E4CA393BCB370 /* SubStudio */,
+				7FD6F793017541F7BFC38FAB /* SubStudio_autogen */,
+				A3DFEAA0F31F4D6D95DD1A98 /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0164CD6DCFA3CA47F1AFB1CF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		A0618BE7BF3BD05487CE7690 /* Generate CMakeFiles/SubStudio_autogen */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/SubStudio_autogen";
+			outputPaths = (
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio_autogen,/Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/mocs_compilation.cpp			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/Cellar/cmake/3.20.5/bin/cmake -E cmake_autogen /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio_autogen.dir/AutogenInfo.json Debug
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/Cellar/cmake/3.20.5/bin/cmake -E cmake_autogen /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio_autogen.dir/AutogenInfo.json Release
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/Cellar/cmake/3.20.5/bin/cmake -E cmake_autogen /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio_autogen.dir/AutogenInfo.json MinSizeRel
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/Cellar/cmake/3.20.5/bin/cmake -E cmake_autogen /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio_autogen.dir/AutogenInfo.json RelWithDebInfo
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		A28D95A32FE886251751E719 /* Generate qrc_Resources.cpp */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+/Users/basiles/Code/CPP/SubStudio/Resources.qrc,"/Users/basiles/Code/CPP/SubStudio/assets/colored-icon.ico","/Users/basiles/Code/CPP/SubStudio/assets/colored-icon.png",/Users/basiles/Code/CPP/SubStudio/assets/icon.ico,/Users/basiles/Code/CPP/SubStudio/assets/splash.svg,/Users/basiles/Code/CPP/SubStudio/xcode/Resources.qrc.depends			);
+			name = "Generate qrc_Resources.cpp";
+			outputPaths = (
+/Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/opt/qt@5/bin/rcc --name Resources --output /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp /Users/basiles/Code/CPP/SubStudio/Resources.qrc
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/opt/qt@5/bin/rcc --name Resources --output /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp /Users/basiles/Code/CPP/SubStudio/Resources.qrc
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/opt/qt@5/bin/rcc --name Resources --output /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp /Users/basiles/Code/CPP/SubStudio/Resources.qrc
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  /opt/homebrew/opt/qt@5/bin/rcc --name Resources --output /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp /Users/basiles/Code/CPP/SubStudio/Resources.qrc
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		E126E7D2735AAFB1E8540DDC /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/ALL_BUILD			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		E6D06B04FE956009F5F9634D /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/ZERO_CHECK			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  make -f /Users/basiles/Code/CPP/SubStudio/xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  make -f /Users/basiles/Code/CPP/SubStudio/xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  make -f /Users/basiles/Code/CPP/SubStudio/xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/basiles/Code/CPP/SubStudio/xcode
+  make -f /Users/basiles/Code/CPP/SubStudio/xcode/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		322C29E835C446E3B4344C10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01B55708B12E4743B9FD36D1 /* /Users/basiles/Code/CPP/SubStudio/src/AboutDialog.cpp */,
+				56EA819813F74B4D9A6A5131 /* /Users/basiles/Code/CPP/SubStudio/src/MainWindow.cpp */,
+				E9982652FBF74DC1BA340F14 /* /Users/basiles/Code/CPP/SubStudio/src/SubParser.cpp */,
+				4A6C544701744FA082D3A338 /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleItem.cpp */,
+				F25CA639FA754198870CD7DB /* /Users/basiles/Code/CPP/SubStudio/src/SubtitleTextHighlighter.cpp */,
+				C52AFA18C5744DEBA9F13B5B /* /Users/basiles/Code/CPP/SubStudio/src/UndoItem.cpp */,
+				AD067BE591384A948854B01D /* /Users/basiles/Code/CPP/SubStudio/src/main.cpp */,
+				965D674B7D8B43C8ACBA112A /* /Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/mocs_compilation.cpp */,
+				2C98E820068143C6A288F077 /* /Users/basiles/Code/CPP/SubStudio/xcode/qrc_Resources.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0DC5761F452A49DA96686D28 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3DFEAA0F31F4D6D95DD1A98 /* ZERO_CHECK */;
+			targetProxy = 260818D8D4AF42A3A6EA0B88 /* PBXContainerItemProxy */;
+		};
+		2DD90B442FB44D44A7AA5C38 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7FD6F793017541F7BFC38FAB /* SubStudio_autogen */;
+			targetProxy = F153ED78FF20409CB9B4DEA3 /* PBXContainerItemProxy */;
+		};
+		3A1CCBB7FB1749B3B9E753B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3DFEAA0F31F4D6D95DD1A98 /* ZERO_CHECK */;
+			targetProxy = 1D9F99DDEDB04779B57E7AC3 /* PBXContainerItemProxy */;
+		};
+		6CA1E7132E9943FFA3752A0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDA81292D52E4CA393BCB370 /* SubStudio */;
+			targetProxy = 03390032BDE74602A93E33B9 /* PBXContainerItemProxy */;
+		};
+		9077AE7155B84F32BE46E3F4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3DFEAA0F31F4D6D95DD1A98 /* ZERO_CHECK */;
+			targetProxy = 65C804C068BA4D798CB3983B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		09ED9E49C07241F082B7F702 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio_autogen;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		16EF2FF0D90847F38A4AD2B0 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio_autogen;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		348274B8B67A4692BEB4A483 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_MULTIMEDIA_LIB,QT_NETWORK_LIB,QT_MULTIMEDIAWIDGETS_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/include_Release,"$(inherited)");
+				INFOPLIST_FILE = /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++17' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-F /opt/homebrew/opt/qt@5/lib","-framework QtMultimediaWidgets","-framework QtWidgets","-framework QtMultimedia","-framework QtNetwork","-framework QtGui","-framework QtCore");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				SYSTEM_HEADER_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtMultimedia.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtNetwork.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtMultimediaWidgets.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		375ABC53E86A49CF92E30FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode/build;
+			};
+			name = Release;
+		};
+		3BFF43FE8CE2466EB4E7D5F3 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		4D1ADCF33A8F4E0386C85DED /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_MULTIMEDIA_LIB,QT_NETWORK_LIB,QT_MULTIMEDIAWIDGETS_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/include_RelWithDebInfo,"$(inherited)");
+				INFOPLIST_FILE = /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++17' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-F /opt/homebrew/opt/qt@5/lib","-framework QtMultimediaWidgets","-framework QtWidgets","-framework QtMultimedia","-framework QtNetwork","-framework QtGui","-framework QtCore");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				SYSTEM_HEADER_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtMultimedia.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtNetwork.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtMultimediaWidgets.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		62023625042F44ACA52057B2 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		847ED4A386334DF7BE423C91 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode/build;
+			};
+			name = RelWithDebInfo;
+		};
+		8615057EB8D0450BBDA59B05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio_autogen;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		A6761B1BAB634496A998ECEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode/build;
+			};
+			name = Debug;
+		};
+		A907A356575E41AC8F879DE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		A98C119791C0434D9F2BFC76 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode/build;
+			};
+			name = MinSizeRel;
+		};
+		AD8FCAEEC04D445386CE9CF2 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_MULTIMEDIA_LIB,QT_NETWORK_LIB,QT_MULTIMEDIAWIDGETS_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/include_MinSizeRel,"$(inherited)");
+				INFOPLIST_FILE = /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++17' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-F /opt/homebrew/opt/qt@5/lib","-framework QtMultimediaWidgets","-framework QtWidgets","-framework QtMultimedia","-framework QtNetwork","-framework QtGui","-framework QtCore");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				SYSTEM_HEADER_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtMultimedia.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtNetwork.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtMultimediaWidgets.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B31046EE0D96432B88E558C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		B43A35CB6C8443B482702888 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		CC6AE2E776EB4DD59919D520 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_MULTIMEDIA_LIB,QT_NETWORK_LIB,QT_MULTIMEDIAWIDGETS_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/basiles/Code/CPP/SubStudio/xcode/SubStudio_autogen/include_Debug,"$(inherited)");
+				INFOPLIST_FILE = /Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir/Info.plist;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++17' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-F /opt/homebrew/opt/qt@5/lib","-framework QtMultimediaWidgets","-framework QtWidgets","-framework QtMultimedia","-framework QtNetwork","-framework QtGui","-framework QtCore");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				SYSTEM_HEADER_SEARCH_PATHS = ("/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtMultimedia.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtNetwork.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtMultimediaWidgets.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		F75861FFEA444099B7E16316 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		F9EB5BDAAC764F48A88E0F11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		FCFE1D2ED83F4940BD9F1F19 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SubStudio_autogen;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		FD1B13B670CF4B469DC577E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/basiles/Code/CPP/SubStudio/xcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		09B483ADE45443BE8785D1FE /* Build configuration list for PBXAggregateTarget "SubStudio_autogen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8615057EB8D0450BBDA59B05 /* Debug */,
+				09ED9E49C07241F082B7F702 /* Release */,
+				16EF2FF0D90847F38A4AD2B0 /* MinSizeRel */,
+				FCFE1D2ED83F4940BD9F1F19 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		22AFBECBF19D4842972C34DC /* Build configuration list for PBXProject "SubStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6761B1BAB634496A998ECEF /* Debug */,
+				375ABC53E86A49CF92E30FCB /* Release */,
+				A98C119791C0434D9F2BFC76 /* MinSizeRel */,
+				847ED4A386334DF7BE423C91 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3A9CFC3E3A9446E68869E3CB /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9EB5BDAAC764F48A88E0F11 /* Debug */,
+				B31046EE0D96432B88E558C7 /* Release */,
+				3BFF43FE8CE2466EB4E7D5F3 /* MinSizeRel */,
+				B43A35CB6C8443B482702888 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		973E694DAB324937A20A2B57 /* Build configuration list for PBXNativeTarget "SubStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC6AE2E776EB4DD59919D520 /* Debug */,
+				348274B8B67A4692BEB4A483 /* Release */,
+				AD8FCAEEC04D445386CE9CF2 /* MinSizeRel */,
+				4D1ADCF33A8F4E0386C85DED /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F2F504FB4DAD4DACA53A1164 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A907A356575E41AC8F879DE7 /* Debug */,
+				FD1B13B670CF4B469DC577E8 /* Release */,
+				F75861FFEA444099B7E16316 /* MinSizeRel */,
+				62023625042F44ACA52057B2 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F7235AE08D564D07AC5FB170 /* Project object */;
+}

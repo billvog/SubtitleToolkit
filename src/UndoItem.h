@@ -1,3 +1,16 @@
+/*
+	UndoItem class is used for undoing and redoing actions that user made.
+	
+	Each instance stores:
+	- an ItemType enum that specifies the kind of action user so the program
+	knows how to undo it
+	- an oldItem
+	- a newItem
+	- and in case of universal edit (all subs where affected):
+		- an oldItems
+		- and a newItems
+*/
+
 #pragma once
 
 #include <QString>
@@ -6,10 +19,10 @@
 class UndoItem {
   public:
     enum ItemType {
-        ADD,
-        REMOVE,
-        EDIT,
-        UNIVERSAL_EDIT
+        ADD, // User create a new subtitle
+        REMOVE, // User removed a subtitle
+        EDIT, // User edited a subtitle
+        UNIVERSAL_EDIT // User altered all subtitles (ex Delay action delays ALL subtitles for a user inputted value)
     };
 
     UndoItem(const QList<SubtitleItem> &oldItems, const QList<SubtitleItem> &newItems, ItemType type);

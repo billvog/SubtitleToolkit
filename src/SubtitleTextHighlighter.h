@@ -1,3 +1,7 @@
+/*
+	The subtitle text input field syntax highlighter.
+*/
+
 #pragma once
 
 #include <QSyntaxHighlighter>

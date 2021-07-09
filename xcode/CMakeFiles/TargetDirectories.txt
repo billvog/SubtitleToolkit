@@ -1,0 +1,4 @@
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio.dir
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/SubStudio_autogen.dir
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/ALL_BUILD.dir
+/Users/basiles/Code/CPP/SubStudio/xcode/CMakeFiles/ZERO_CHECK.dir

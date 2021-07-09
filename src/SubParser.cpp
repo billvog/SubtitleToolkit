@@ -1,7 +1,5 @@
 #include "SubParser.h"
 
-SubParser::SubParser() {}
-
 // SubRip (.srt)
 QList<SubtitleItem> SubParser::ParseSrt(QString filepath) {
   QList<SubtitleItem> Result;

@@ -1,3 +1,7 @@
+/*
+	SubtitleItem class stores all information for each subtitle.
+*/
+
 #pragma once
 
 #include <QString>
@@ -7,10 +11,12 @@ class SubtitleItem {
 public:
   SubtitleItem();
   SubtitleItem(QTime showTimestamp, QTime hideTimestamp, QString subtitle);
+	
 private:
   QTime ShowTimestamp;
   QTime HideTimestamp;
   QString Subtitle;
+	
 public:
   void setShowTimestamp(QTime time);
   void setHideTimestamp(QTime time);
