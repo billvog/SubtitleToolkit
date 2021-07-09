@@ -20,6 +20,7 @@
 #include <QInputDialog>
 
 #include "AppInfo.h"
+#include "MediaPlayer.h"
 #include "AboutDialog.h"
 #include "SubtitleTextHighlighter.h"
 #include "SubtitleItem.h"
@@ -49,6 +50,8 @@ protected:
 private:
 	Ui::MainWindow *ui;
 
+	MediaPlayer* mPlayer;
+	
 	SubtitleTextHighlighter *subtitlesTextHighlighter;
 
 	QString SubFilePath;
@@ -68,7 +71,7 @@ private:
 
 	QStandardItemModel *subtitlesModel;
 
-	QGraphicsVideoItem *videoItem;
+	QFrame *videoItem;
 	QGraphicsTextItem *subTextItem;
 	QGraphicsScene *scene;
 	QMediaPlayer *player;

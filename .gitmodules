@@ -1,0 +1,6 @@
+[submodule "libs/vlc-qt"]
+	path = libs/vlc-qt
+	url = git://github.com/vlc-qt/vlc-qt.git
+[submodule "lib/libvlcpp"]
+	path = lib/libvlcpp
+	url = https://github.com/videolan/libvlcpp

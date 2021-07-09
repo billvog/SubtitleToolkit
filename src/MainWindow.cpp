@@ -87,33 +87,36 @@ void MainWindow::SetupButtonIcons() {
 }
 
 void MainWindow::SetupVideoWidget() {
-  videoItem = new QGraphicsVideoItem();
-  subTextItem = new QGraphicsTextItem();
+	videoItem = new QFrame();
+	subTextItem = new QGraphicsTextItem();
 
-  scene = new QGraphicsScene(this);
+	scene = new QGraphicsScene(this);
 
-  QGraphicsView *view = ui->GraphicsView;
-  view->setScene(scene);
-  view->show();
+	QGraphicsView *view = ui->GraphicsView;
+	view->setScene(scene);
+	view->show();
 
-  scene->addItem(videoItem);
-  scene->addItem(subTextItem);
+	//scene->addItem(videoItem);
+	scene->addWidget(videoItem);
+	scene->addItem(subTextItem);
 
-  player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
-  player->setVideoOutput(videoItem);
-  player->setNotifyInterval(50);
-  player->setVolume(ui->VolumeSlider->value());
+	//  player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
+	//  player->setVideoOutput(videoItem);
+	//  player->setNotifyInterval(50);
+	//  player->setVolume(ui->VolumeSlider->value());
+	mPlayer = new MediaPlayer(videoItem);
 
-  subTextItem->setPlainText(QString());
-  subTextItem->setDefaultTextColor(QColorConstants::White);
 
-  QFont subtitleFont = subTextItem->font();
-  subtitleFont.setPixelSize(26);
-  subTextItem->setFont(subtitleFont);
+	subTextItem->setPlainText(QString());
+	subTextItem->setDefaultTextColor(QColorConstants::White);
 
-  QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
-  shadowEffect->setOffset(1, 1);
-  subTextItem->setGraphicsEffect(shadowEffect);
+	QFont subtitleFont = subTextItem->font();
+	subtitleFont.setPixelSize(26);
+	subTextItem->setFont(subtitleFont);
+
+	QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
+	shadowEffect->setOffset(1, 1);
+	subTextItem->setGraphicsEffect(shadowEffect);
 }
 
 void MainWindow::SetupSubtitlesTable() {
@@ -157,9 +160,9 @@ void MainWindow::ConnectEvents() {
 	connect(ui->ActionHelpAboutQt, SIGNAL(triggered()), this, SLOT(AboutQtHelpAction()));
 
 	// Media Player
-	connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(VideoSeekableChanged(bool)));
-	connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(VideoPositionChanged(qint64)));
-	connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(VideoDurationChanged(qint64)));
+//	connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(VideoSeekableChanged(bool)));
+//	connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(VideoPositionChanged(qint64)));
+//	connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(VideoDurationChanged(qint64)));
 
 	connect(ui->TimelineSlider, SIGNAL(sliderMoved(int)), this, SLOT(TimelineSliderChanged(int)));
 	connect(ui->TogglePlayButton, SIGNAL(clicked()), this, SLOT(TogglePlayVideo()));
@@ -203,7 +206,7 @@ void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
 }
 
 void MainWindow::UpdateUI() {
-  videoItem->setSize(ui->GraphicsView->size());
+  //videoItem->setSize(ui->GraphicsView->size());
   scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
 
   // Update Subtitle Text
