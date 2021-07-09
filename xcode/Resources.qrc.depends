@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>assets/icon.ico</file>
-        <file>assets/colored-icon.ico</file>
-		<file>assets/colored-icon.png</file>
-        <file>assets/splash.svg</file>
-    </qresource>
-</RCC>

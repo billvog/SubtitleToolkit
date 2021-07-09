@@ -1,9 +1,5 @@
-# Bin Folders
-Debug/
-Release/
-
-# Qt
-*.pro.user
+# Xcode
+xcode
 
 # Misc
 .DS_Store

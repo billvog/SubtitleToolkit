@@ -1,7 +1,0 @@
-Target dependency graph (3 targets)
-ZERO_CHECK in SubStudio
-SubStudio_autogen in SubStudio, depends on:
-ZERO_CHECK in SubStudio (explicit)
-SubStudio in SubStudio, depends on:
-SubStudio_autogen in SubStudio (explicit)
-ZERO_CHECK in SubStudio (explicit)
