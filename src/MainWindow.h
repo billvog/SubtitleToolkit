@@ -18,6 +18,7 @@
 #include <QGraphicsDropShadowEffect>
 #include <QMediaPlayer>
 #include <QInputDialog>
+#include <QGraphicsProxyWidget>
 
 #include "AppInfo.h"
 #include "MediaPlayer.h"

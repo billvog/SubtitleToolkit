@@ -87,25 +87,20 @@ void MainWindow::SetupButtonIcons() {
 }
 
 void MainWindow::SetupVideoWidget() {
-	videoItem = new QFrame();
-	subTextItem = new QGraphicsTextItem();
-
 	scene = new QGraphicsScene(this);
-
+	
 	QGraphicsView *view = ui->GraphicsView;
 	view->setScene(scene);
 	view->show();
 
-	//scene->addItem(videoItem);
+	videoItem = new QFrame(view);
+	subTextItem = new QGraphicsTextItem();
+	
 	scene->addWidget(videoItem);
 	scene->addItem(subTextItem);
-
-	//  player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
-	//  player->setVideoOutput(videoItem);
-	//  player->setNotifyInterval(50);
-	//  player->setVolume(ui->VolumeSlider->value());
-	mPlayer = new MediaPlayer(videoItem);
-
+	
+	mPlayer = new MediaPlayer();
+	mPlayer->SetVideoWidget(videoItem);
 
 	subTextItem->setPlainText(QString());
 	subTextItem->setDefaultTextColor(QColorConstants::White);
@@ -206,14 +201,14 @@ void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
 }
 
 void MainWindow::UpdateUI() {
-  //videoItem->setSize(ui->GraphicsView->size());
-  scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
+	scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
+	videoItem->setFixedSize(ui->GraphicsView->size());
+	
+	// Update Subtitle Text
+	subTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
+	subTextItem->setScale(subTextScaleFactor);
 
-  // Update Subtitle Text
-  subTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
-  subTextItem->setScale(subTextScaleFactor);
-
-  UpdateSubPosition();
+	UpdateSubPosition();
 }
 
 void MainWindow::UpdateSubAlignment() {
@@ -623,13 +618,20 @@ void MainWindow::AboutQtHelpAction() {
 
 // Media player
 void MainWindow::OpenMediaFile(const QString &Path) {
-  player->setMedia(QUrl::fromLocalFile(Path));
-  player->play();
+	//player->setMedia(QUrl::fromLocalFile(Path));
+	//player->play();
 
-  ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-  ui->StopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
+	mPlayer->LoadMedia(Path);
+	mPlayer->Play();
+	
+	ui->TimelineSlider->setEnabled(true);
+	ui->TimelineSlider->setMaximum(MP_POSITION_RESOLUTION);
 
-  SetMediaControlsEnabled(true);
+	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
+	ui->StopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
+
+	SetMediaControlsEnabled(true);
+	UpdateUI();
 }
 
 void MainWindow::VideoSeekableChanged(bool) {
@@ -637,10 +639,10 @@ void MainWindow::VideoSeekableChanged(bool) {
 }
 
 void MainWindow::VideoDurationChanged(qint64 value) {
-  if (value == 0) {
-    ui->TimelineSlider->setMaximum(1);
-    ui->TimelineSlider->setEnabled(false);
-  }
+//  if (value == 0) {
+//    ui->TimelineSlider->setMaximum(1);
+//    ui->TimelineSlider->setEnabled(false);
+//  }
 
   ui->TimelineSlider->setEnabled(true);
   ui->TimelineSlider->setMaximum(value);
@@ -664,43 +666,37 @@ void MainWindow::VideoPositionChanged(qint64 value) {
 }
 
 void MainWindow::TimelineSliderChanged(int value) {
-  player->setPosition(value);
+	mPlayer->ChangePosition(value);
 }
 
 void MainWindow::TogglePlayVideo() {
-  if (player->mediaStatus() == QMediaPlayer::NoMedia)
-    return;
-
-  if (player->state() == QMediaPlayer::PlayingState) {
-    ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    player->pause();
-  }
-  else {
-    ui->StopButton->setEnabled(true);
-    ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-    player->play();
-  }
+	if (mPlayer->isPlaying()) {
+		ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+		mPlayer->Pause();
+	}
+	else {
+		ui->StopButton->setEnabled(true);
+		ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
+		mPlayer->Play();
+	}
 }
 
 void MainWindow::StopVideo() {
-  ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-  ui->StopButton->setEnabled(false);
-
-  player->stop();
+	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+	ui->StopButton->setEnabled(false);
+	mPlayer->Stop();
 }
 
 void MainWindow::SeekForwards() {
-  if (player->mediaStatus() == QMediaPlayer::NoMedia)
-    return;
-
-  player->setPosition(player->position() + mediaSeekFactor);
+	if (mPlayer->hasMedia()) {
+		mPlayer->ChangePosition(mPlayer->getPosition() + 1000);
+	}
 }
 
 void MainWindow::SeekBackwards() {
-  if (player->mediaStatus() == QMediaPlayer::NoMedia)
-    return;
-
-  player->setPosition(player->position() - mediaSeekFactor);
+	if (mPlayer->hasMedia()) {
+		mPlayer->ChangePosition(mPlayer->getPosition() - 1000);
+	}
 }
 
 void MainWindow::VolumeUp() {
@@ -723,7 +719,7 @@ void MainWindow::ToggleMuteAudio() {
 }
 
 void MainWindow::VolumeSliderChanged(int value) {
-  player->setVolume(value);
+	mPlayer->ChangeVolume(value);
 }
 
 // Subtitle Group

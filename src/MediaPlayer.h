@@ -7,15 +7,13 @@
 
 #include "vlc/vlc.h"
 
-#define POSITION_RESOLUTION 10000
+#define MP_POSITION_RESOLUTION 10000
 
 namespace Ui { class MediaPlayer; }
 
-class MediaPlayer : public QFrame {
-	Q_OBJECT
-
+class MediaPlayer {
 public:
-	MediaPlayer(QFrame *parent = nullptr);
+	MediaPlayer();
 	~MediaPlayer();
 	
 	inline libvlc_event_manager_t* getEventManager() { return libvlc_media_player_event_manager(vlc_mp); }
@@ -23,6 +21,9 @@ public:
 	inline float isPlaying() { return libvlc_media_player_is_playing(vlc_mp); }
 	inline float getPosition() { return libvlc_media_player_get_position(vlc_mp); }
 	inline float getVolume() { return libvlc_audio_get_volume(vlc_mp); }
+	inline bool hasMedia() { return loadedMedia.length() > 0; }
+	
+	void SetVideoWidget(QFrame* widget);
 	
 	// Media actions
 	void LoadMedia(const QString& filepath);
@@ -40,6 +41,9 @@ public:
 private:
 	libvlc_instance_t* vlc_instance;
 	libvlc_media_player_t* vlc_mp;
+	libvlc_media_t* vlc_current_media;
 	
 	QString loadedMedia;
+	QFrame* videoWidget;
+	WId currentWId;
 };
