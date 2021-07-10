@@ -34,6 +34,10 @@ public:
 	
 	void ChangePosition(int64_t newPosition);
 	
+	// Subtitle specific
+	bool AddSubtitlesFile(const std::string& filepath);
+	bool ReloadSubtitles();
+	
 	// Audio specific
 	void Mute(bool mute);
 	void ToggleMute();
@@ -43,6 +47,8 @@ private:
 	VLC::MediaPlayer vlc_mp;
 	
 	QString loadedMedia;
+	QString loadedSubtitles;
+	
 	QFrame* videoWidget;
 	WId currentWId;
 };

@@ -64,6 +64,15 @@ void MediaPlayer::ChangePosition(int64_t newPosition) {
 	vlc_mp.setPosition(pos);
 }
 
+bool MediaPlayer::AddSubtitlesFile(const std::string& filepath) {
+	loadedSubtitles = QString::fromStdString(filepath);
+	return vlc_mp.addSlave(VLC::MediaSlave::Type::Subtitle, "file://" + loadedSubtitles.toStdString(), true);
+}
+
+bool MediaPlayer::ReloadSubtitles() {
+	return vlc_mp.addSlave(VLC::MediaSlave::Type::Subtitle, "file://" + loadedSubtitles.toStdString(), true);
+}
+
 // Audio specific
 void MediaPlayer::Mute(bool mute) {
 	vlc_mp.setMute(mute);

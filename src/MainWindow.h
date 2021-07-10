@@ -77,7 +77,7 @@ private:
 	QGraphicsScene *scene;
 	QMediaPlayer *player;
 	
-	const qreal SubTextScaleFactor = 1.0;
+	qreal SubTextScaleFactor = 1.0;
 	const qreal MediaSeekFactor = 500;
 
 	void SetupButtonIcons();

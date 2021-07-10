@@ -96,8 +96,8 @@ void MainWindow::SetupVideoWidget() {
 	videoItem = new QFrame(view);
 	subTextItem = new QGraphicsTextItem();
 	
-	scene->addItem(subTextItem);
 	scene->addWidget(videoItem);
+	scene->addItem(subTextItem);
 	
 	mPlayer = new MediaPlayer();
 	mPlayer->SetVideoWidget(videoItem);
@@ -644,8 +644,8 @@ void MainWindow::VideoPlaybackTimeChanged(const int64_t time) {
 
 	ui->ShowSubTimeEdit->setTime(MsToTime(time));
 	ui->HideSubTimeEdit->setTime(MsToTime(time + SubDuration));
-
-//	ShowAvailableSub();
+	
+	ShowAvailableSub();
 	
 	ui->TimelineSlider->setMaximum(TotalDuration);
 	ui->TimelineLabel->setText(MsToTime(time).toString("hh:mm:ss,zzz") + " / " + MsToTime(TotalDuration).toString("hh:mm:ss,zzz"));
@@ -719,59 +719,64 @@ void MainWindow::VolumeSliderChanged(int value) {
 
 // Subtitle Group
 void MainWindow::OpenSubtitleFile(const QString &Path) {
-  SubFilePath = Path;
-  QFileInfo fileInfo(SubFilePath);
+	SubFilePath = Path;
+	QFileInfo fileInfo(SubFilePath);
 
-  UndoItems.clear();
-  RedoItems.clear();
+	UndoItems.clear();
+	RedoItems.clear();
 
-  EditingSubtitleIndex = -1;
-  PrevEditinSubtitleIndex = EditingSubtitleIndex;
+	EditingSubtitleIndex = -1;
+	PrevEditinSubtitleIndex = EditingSubtitleIndex;
 
-  QString suffix(fileInfo.suffix());
+	QString suffix(fileInfo.suffix());
 
-  try {
-    if (suffix == "srt") {
-      Subtitles = SubParser::ParseSrt(SubFilePath);
-    }
-    else if (suffix == "vtt") {
-      Subtitles = SubParser::ParseVtt(SubFilePath);
-    }
-    else {
-      QMessageBox::critical(this, "Error", "Unsupported file type: \"" + suffix + "\"");
-      CloseAction();
-      return;
-    }
-  }  catch (const QString error) {
-    QMessageBox::critical(this, "Parse Error", error);
-    CloseAction();
-    return;
-  }
+	try {
+		if (suffix == "srt") {
+			Subtitles = SubParser::ParseSrt(SubFilePath);
+		}
+		else if (suffix == "vtt") {
+			Subtitles = SubParser::ParseVtt(SubFilePath);
+		}
+		else {
+			throw "Unsupported file type: \"" + suffix + "\"";
+		}
+		
+		if (Subtitles.length() == 0)
+			throw "File format is corrupt and could not be parsed.";
+		
+		if (!mPlayer->AddSubtitlesFile(SubFilePath.toStdString()))
+			throw "Error openning the file";
+		
+	}  catch (const QString error) {
+		QMessageBox::critical(this, "Parse Error", error);
+		CloseAction();
+		return;
+	}
 
-  subtitlesModel->clear();
+	subtitlesModel->clear();
 
-  if (Subtitles.length() == 0) {
-    QMessageBox::critical(this, "Parse Error", "File format is corrupt and could not be parsed.");
-    CloseAction();
-    return;
-  }
+	if (Subtitles.length() == 0) {
+		QMessageBox::critical(this, "Parse Error", "File format is corrupt and could not be parsed.");
+		CloseAction();
+		return;
+	}
 
-  for (int i = 0; i < Subtitles.size(); i++) {
-    subtitlesModel->setItem(i, 0, new QStandardItem(Subtitles.at(i).getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(i, 1, new QStandardItem(Subtitles.at(i).getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(i, 2, new QStandardItem(Subtitles.at(i).getSubtitle()));
-  }
+	for (int i = 0; i < Subtitles.size(); i++) {
+		subtitlesModel->setItem(i, 0, new QStandardItem(Subtitles.at(i).getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(i, 1, new QStandardItem(Subtitles.at(i).getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(i, 2, new QStandardItem(Subtitles.at(i).getSubtitle()));
+	}
 
-  subtitlesModel->sort(0);
+	subtitlesModel->sort(0);
 
-  ui->SubtitleGroupBox->setEnabled(true);
-  SetIsSaved(true);
+	ui->SubtitleGroupBox->setEnabled(true);
+	SetIsSaved(true);
 }
 
 void MainWindow::ShowAvailableSub() {
   int64_t Position = mPlayer->getPositionInMs();
 
-  ClearSubtitle();
+//  ClearSubtitle();
 
   for (int i = 0; i < Subtitles.size(); i++) {
     int SubShowTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i).getShowTimestamp());
@@ -795,10 +800,10 @@ void MainWindow::DisplaySubtitle(const SubtitleItem &subItem) {
     return;
 
   // Display Subtitle on Video
-  subTextItem->setHtml(subItem.getSubtitle().replace('\n', "<br>"));
-
-  UpdateSubAlignment();
-  UpdateSubPosition();
+//  subTextItem->setHtml(subItem.getSubtitle().replace('\n', "<br>"));
+//
+//  UpdateSubAlignment();
+//  UpdateSubPosition();
 
   // Fill active Subtitle values on fields
   int SubShowTime = QTime(0, 0, 0).msecsTo(subItem.getShowTimestamp());
@@ -818,7 +823,7 @@ void MainWindow::DisplaySubtitle(const SubtitleItem &subItem) {
 }
 
 void MainWindow::ClearSubtitle() {
-	subTextItem->setPlainText(QString());
+//	subTextItem->setPlainText(QString());
 
 	ui->ShowSubTimeEdit->setTime(QTime());
 	ui->HideSubTimeEdit->setTime(QTime());
@@ -832,20 +837,20 @@ void MainWindow::ClearSubtitle() {
 
 void MainWindow::SelectSubFromTable(int row) {
 	if (0 > row || row >= Subtitles.size())
-	return;
+		return;
 
 	if (!isSubApplied && EditingSubtitleIndex >= 0) {
-	SubtitleItem currentSub = Subtitles.at(EditingSubtitleIndex);
-	QString Timestamps = currentSub.getShowTimestamp().toString("hh:mm:ss,zzz") + " - " + currentSub.getHideTimestamp().toString("hh:mm:ss,zzz");
+		SubtitleItem currentSub = Subtitles.at(EditingSubtitleIndex);
+		QString Timestamps = currentSub.getShowTimestamp().toString("hh:mm:ss,zzz") + " - " + currentSub.getHideTimestamp().toString("hh:mm:ss,zzz");
 
-	int result = QMessageBox::question(this, "Confirm", "Subtitle at \"" + Timestamps + "\" has changed. Apply?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
-	if (result == QMessageBox::Yes) {
-	  ApplySubtitlePressed();
-	}
-	else if (result == QMessageBox::Cancel) {
-	  ui->SubTableView->selectRow(PrevEditinSubtitleIndex);
-	  return;
-	}
+		int result = QMessageBox::question(this, "Confirm", "Subtitle at \"" + Timestamps + "\" has changed. Apply?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
+		if (result == QMessageBox::Yes) {
+		  ApplySubtitlePressed();
+		}
+		else if (result == QMessageBox::Cancel) {
+		  ui->SubTableView->selectRow(PrevEditinSubtitleIndex);
+		  return;
+		}
 	}
 
 	if (mPlayer->hasMedia()) {
@@ -955,7 +960,8 @@ void MainWindow::SubTextToggleTag(const QString &tag) {
 }
 
 void MainWindow::SubTextChanged() {
-  isSubApplied = false;
+	if (Subtitles.at(EditingSubtitleIndex).getSubtitle() != ui->SubtitleTextEdit->toPlainText())
+		isSubApplied = false;
 }
 
 void MainWindow::SubCursorPosChanged() {
@@ -1014,57 +1020,62 @@ void MainWindow::SubStrikeoutClicked() {
 }
 
 bool MainWindow::ApplySubtitle(const SubtitleItem &item, const int index) {
-  if (index < 0) {
-    subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(item.getSubtitle()));
+	if (index < 0) {
+		subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(item.getSubtitle()));
 
-    Subtitles.push_back(item);
-    UndoItems.append(UndoItem(item, UndoItem::ItemType::ADD));
-  }
-  else {
-    subtitlesModel->setItem(index, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(index, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(index, 2, new QStandardItem(item.getSubtitle()));
+		Subtitles.push_back(item);
+		UndoItems.append(UndoItem(item, UndoItem::ItemType::ADD));
+	}
+	else {
+		subtitlesModel->setItem(index, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(index, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(index, 2, new QStandardItem(item.getSubtitle()));
 
-    UndoItems.append(UndoItem(Subtitles.at(index), item, UndoItem::ItemType::EDIT));
-    Subtitles.replace(index, item);
-  }
+		UndoItems.append(UndoItem(Subtitles.at(index), item, UndoItem::ItemType::EDIT));
+		Subtitles.replace(index, item);
+	}
 
-  subtitlesModel->sort(0);
-  std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
+	subtitlesModel->sort(0);
+	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
-  isSubApplied = true;
-  SetIsSaved(false);
+	isSubApplied = true;
+	SetIsSaved(false);
 
-  ShowAvailableSub();
+	ShowAvailableSub();
 
-  return true;
+//	Save file in temp so vlc can reload the file from there
+	mPlayer->ReloadSubtitles();
+
+	return true;
 }
 
 bool MainWindow::ApplySubtitles(const QList<SubtitleItem> &items) {
-  UndoItems.append(UndoItem(Subtitles, items, UndoItem::ItemType::UNIVERSAL_EDIT));
-  Subtitles.clear();
+	UndoItems.append(UndoItem(Subtitles, items, UndoItem::ItemType::UNIVERSAL_EDIT));
+	Subtitles.clear();
 
-  for (int idx = 0; idx < items.length(); idx++) {
-    SubtitleItem item = items.at(idx);
+	for (int idx = 0; idx < items.length(); idx++) {
+		SubtitleItem item = items.at(idx);
 
-    subtitlesModel->setItem(idx, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(idx, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(idx, 2, new QStandardItem(item.getSubtitle()));
+		subtitlesModel->setItem(idx, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(idx, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(idx, 2, new QStandardItem(item.getSubtitle()));
 
-    Subtitles.append(item);
-  }
+		Subtitles.append(item);
+	}
 
-  subtitlesModel->sort(0);
-  std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
+	subtitlesModel->sort(0);
+	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
-  isSubApplied = true;
-  SetIsSaved(false);
+	isSubApplied = true;
+	SetIsSaved(false);
 
-  ShowAvailableSub();
+	ShowAvailableSub();
 
-  return true;
+	mPlayer->ReloadSubtitles();
+
+	return true;
 }
 
 void MainWindow::ApplySubtitlePressed() {
