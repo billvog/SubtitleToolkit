@@ -96,8 +96,8 @@ void MainWindow::SetupVideoWidget() {
 	videoItem = new QFrame(view);
 	subTextItem = new QGraphicsTextItem();
 	
-	scene->addWidget(videoItem);
 	scene->addItem(subTextItem);
+	scene->addWidget(videoItem);
 	
 	mPlayer = new MediaPlayer();
 	mPlayer->SetVideoWidget(videoItem);
@@ -189,15 +189,25 @@ void MainWindow::ConnectEvents() {
 
 	connect(ui->ApplySubButton, SIGNAL(clicked()), this, SLOT(ApplySubtitlePressed()));
 	connect(ui->RemoveSubButton, SIGNAL(clicked()), this, SLOT(RemoveSubtitle()));
+	
+	// Media player
+	mPlayer->getEventManager()->onTimeChanged([this](const int64_t time) {
+		VideoPlaybackTimeChanged(time);
+	});
+	
+	mPlayer->getEventManager()->onPositionChanged([this](const float pos) {
+		VideoPositionChanged(pos);
+	});
 }
 
 void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
-  ui->TogglePlayButton->setEnabled(isEnabled);
-  ui->ToggleMuteButton->setEnabled(isEnabled);
-  ui->VolumeSlider->setEnabled(isEnabled);
-  ui->BackwardSeekButton->setEnabled(isEnabled);
-  ui->ForwardSeekButton->setEnabled(isEnabled);
-  ui->StopButton->setEnabled(isEnabled);
+	ui->TimelineSlider->setEnabled(isEnabled);
+	ui->TogglePlayButton->setEnabled(isEnabled);
+	ui->ToggleMuteButton->setEnabled(isEnabled);
+	ui->VolumeSlider->setEnabled(isEnabled);
+	ui->BackwardSeekButton->setEnabled(isEnabled);
+	ui->ForwardSeekButton->setEnabled(isEnabled);
+	ui->StopButton->setEnabled(isEnabled);
 }
 
 void MainWindow::UpdateUI() {
@@ -205,8 +215,8 @@ void MainWindow::UpdateUI() {
 	videoItem->setFixedSize(ui->GraphicsView->size());
 	
 	// Update Subtitle Text
-	subTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
-	subTextItem->setScale(subTextScaleFactor);
+	SubTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
+	subTextItem->setScale(SubTextScaleFactor);
 
 	UpdateSubPosition();
 }
@@ -223,7 +233,7 @@ void MainWindow::UpdateSubAlignment() {
 }
 
 void MainWindow::UpdateSubPosition() {
-  QSizeF textRectSize = subTextItem->boundingRect().size() * subTextScaleFactor;
+  QSizeF textRectSize = subTextItem->boundingRect().size() * SubTextScaleFactor;
   qreal target_y = videoItem->size().height() - textRectSize.height();
   qreal target_x = (videoItem->size().width() - textRectSize.width()) / 2;
   subTextItem->setPos(target_x, target_y);
@@ -618,14 +628,8 @@ void MainWindow::AboutQtHelpAction() {
 
 // Media player
 void MainWindow::OpenMediaFile(const QString &Path) {
-	//player->setMedia(QUrl::fromLocalFile(Path));
-	//player->play();
-
 	mPlayer->LoadMedia(Path);
 	mPlayer->Play();
-	
-	ui->TimelineSlider->setEnabled(true);
-	ui->TimelineSlider->setMaximum(MP_POSITION_RESOLUTION);
 
 	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
 	ui->StopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
@@ -634,35 +638,26 @@ void MainWindow::OpenMediaFile(const QString &Path) {
 	UpdateUI();
 }
 
-void MainWindow::VideoSeekableChanged(bool) {
-  UpdateUI();
+void MainWindow::VideoPlaybackTimeChanged(const int64_t time) {
+	int TotalDuration = mPlayer->getDuration();
+	int SubDuration = QTime(0, 0, 0).msecsTo(ui->DurationSubTimeEdit->time());
+
+	ui->ShowSubTimeEdit->setTime(MsToTime(time));
+	ui->HideSubTimeEdit->setTime(MsToTime(time + SubDuration));
+
+//	ShowAvailableSub();
+	
+	ui->TimelineSlider->setMaximum(TotalDuration);
+	ui->TimelineLabel->setText(MsToTime(time).toString("hh:mm:ss,zzz") + " / " + MsToTime(TotalDuration).toString("hh:mm:ss,zzz"));
 }
 
-void MainWindow::VideoDurationChanged(qint64 value) {
-  if (value == 0) {
-    ui->TimelineSlider->setMaximum(1);
-    ui->TimelineSlider->setEnabled(false);
-  }
+void MainWindow::VideoPositionChanged(float pos) {
+	int TotalDuration = mPlayer->getDuration();
+	float CurrentPosition = pos * (float) mPlayer->getDuration();
+	int64_t RealPosition = mPlayer->getPositionInMs();
 
-  ui->TimelineSlider->setEnabled(true);
-  ui->TimelineSlider->setMaximum(value);
-}
-
-void MainWindow::VideoPositionChanged(qint64 value) {
-  int TotalDuration = player->duration();
-  int CurrentPosition = value;
-
-  if (!ui->TimelineSlider->isSliderDown())
-    ui->TimelineSlider->setValue(value);
-
-  int SubDuration = QTime(0, 0, 0).msecsTo(ui->DurationSubTimeEdit->time());
-
-  ui->ShowSubTimeEdit->setTime(MsToTime(CurrentPosition));
-  ui->HideSubTimeEdit->setTime(MsToTime(CurrentPosition + SubDuration));
-
-  ui->TimelineLabel->setText(MsToTime(CurrentPosition).toString("hh:mm:ss,zzz") + " / " + MsToTime(TotalDuration).toString("hh:mm:ss,zzz"));
-
-  ShowAvailableSub();
+	if (!ui->TimelineSlider->isSliderDown())
+		ui->TimelineSlider->setValue(CurrentPosition);
 }
 
 void MainWindow::TimelineSliderChanged(int value) {
@@ -689,13 +684,13 @@ void MainWindow::StopVideo() {
 
 void MainWindow::SeekForwards() {
 	if (mPlayer->hasMedia()) {
-		mPlayer->ChangePosition(mPlayer->getPosition() + 1000);
+		mPlayer->ChangePosition(mPlayer->getPositionInMs() + MediaSeekFactor);
 	}
 }
 
 void MainWindow::SeekBackwards() {
 	if (mPlayer->hasMedia()) {
-		mPlayer->ChangePosition(mPlayer->getPosition() - 1000);
+		mPlayer->ChangePosition(mPlayer->getPositionInMs() + -MediaSeekFactor);
 	}
 }
 
@@ -774,7 +769,7 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
 }
 
 void MainWindow::ShowAvailableSub() {
-  int Position = player->position();
+  int64_t Position = mPlayer->getPositionInMs();
 
   ClearSubtitle();
 
@@ -823,37 +818,40 @@ void MainWindow::DisplaySubtitle(const SubtitleItem &subItem) {
 }
 
 void MainWindow::ClearSubtitle() {
-  subTextItem->setPlainText(QString());
+	subTextItem->setPlainText(QString());
 
-  ui->ShowSubTimeEdit->setTime(QTime());
-  ui->HideSubTimeEdit->setTime(QTime());
-  ui->SubtitleTextEdit->setPlainText(QString());
+	ui->ShowSubTimeEdit->setTime(QTime());
+	ui->HideSubTimeEdit->setTime(QTime());
+	ui->SubtitleTextEdit->setPlainText(QString());
 
-  ui->SubTableView->clearSelection();
+	ui->SubTableView->clearSelection();
 
-  EditingSubtitleIndex = -1;
-  isSubApplied = true;
+	EditingSubtitleIndex = -1;
+	isSubApplied = true;
 }
 
 void MainWindow::SelectSubFromTable(int row) {
-  if (0 > row || row >= Subtitles.size())
-    return;
+	if (0 > row || row >= Subtitles.size())
+	return;
 
-  if (!isSubApplied && EditingSubtitleIndex >= 0) {
-    SubtitleItem currentSub = Subtitles.at(EditingSubtitleIndex);
-    QString Timestamps = currentSub.getShowTimestamp().toString("hh:mm:ss,zzz") + " - " + currentSub.getHideTimestamp().toString("hh:mm:ss,zzz");
+	if (!isSubApplied && EditingSubtitleIndex >= 0) {
+	SubtitleItem currentSub = Subtitles.at(EditingSubtitleIndex);
+	QString Timestamps = currentSub.getShowTimestamp().toString("hh:mm:ss,zzz") + " - " + currentSub.getHideTimestamp().toString("hh:mm:ss,zzz");
 
-    int result = QMessageBox::question(this, "Confirm", "Subtitle at \"" + Timestamps + "\" has changed. Apply?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
-    if (result == QMessageBox::Yes) {
-      ApplySubtitlePressed();
-    }
-    else if (result == QMessageBox::Cancel) {
-      ui->SubTableView->selectRow(PrevEditinSubtitleIndex);
-      return;
-    }
-  }
+	int result = QMessageBox::question(this, "Confirm", "Subtitle at \"" + Timestamps + "\" has changed. Apply?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
+	if (result == QMessageBox::Yes) {
+	  ApplySubtitlePressed();
+	}
+	else if (result == QMessageBox::Cancel) {
+	  ui->SubTableView->selectRow(PrevEditinSubtitleIndex);
+	  return;
+	}
+	}
 
-  player->setPosition(QTime(0, 0, 0).msecsTo(Subtitles.at(row).getShowTimestamp()));
+	if (mPlayer->hasMedia()) {
+		float position = QTime(0, 0, 0, 0).msecsTo(Subtitles.at(row).getShowTimestamp());
+		mPlayer->ChangePosition(position);
+	}
 }
 
 void MainWindow::SubTableRowClicked(QModelIndex index) {

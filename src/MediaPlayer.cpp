@@ -57,8 +57,10 @@ void MediaPlayer::Stop() {
 	vlc_mp.stop();
 }
 
-void MediaPlayer::ChangePosition(float newPosition) {
-	float pos = newPosition / (float) MP_POSITION_RESOLUTION;
+void MediaPlayer::ChangePosition(int64_t newPosition) {
+	float pos = ((float)newPosition / (float)getDuration());
+	if (pos < 0) pos = 0;
+	
 	vlc_mp.setPosition(pos);
 }
 

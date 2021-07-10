@@ -76,8 +76,9 @@ private:
 	QGraphicsTextItem *subTextItem;
 	QGraphicsScene *scene;
 	QMediaPlayer *player;
-	qreal subTextScaleFactor = 1.0;
-	qreal mediaSeekFactor = 250;
+	
+	const qreal SubTextScaleFactor = 1.0;
+	const qreal MediaSeekFactor = 500;
 
 	void SetupButtonIcons();
 	void SetupVideoWidget();
@@ -125,9 +126,8 @@ private slots:
 	// Media
 	void OpenMediaFile(const QString &Path);
 
-	void VideoSeekableChanged(bool value);
-	void VideoDurationChanged(qint64 value);
-	void VideoPositionChanged(qint64 value);
+	void VideoPositionChanged(float pos);
+	void VideoPlaybackTimeChanged(const int64_t time);
 
 	void TimelineSliderChanged(int value);
 	void TogglePlayVideo();
