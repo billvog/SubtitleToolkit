@@ -5,7 +5,7 @@
 #include <QFrame>
 #include <QString>
 
-#include "vlc/vlc.h"
+#include "vlcpp/vlc.hpp"
 
 #define MP_POSITION_RESOLUTION 10000
 
@@ -16,12 +16,12 @@ public:
 	MediaPlayer();
 	~MediaPlayer();
 	
-	inline libvlc_event_manager_t* getEventManager() { return libvlc_media_player_event_manager(vlc_mp); }
+	inline VLC::EventManager getEventManager() { return vlc_mp.eventManager(); }
 	
-	inline float isPlaying() { return libvlc_media_player_is_playing(vlc_mp); }
-	inline float getPosition() { return libvlc_media_player_get_position(vlc_mp); }
-	inline float getVolume() { return libvlc_audio_get_volume(vlc_mp); }
-	inline bool hasMedia() { return loadedMedia.length() > 0; }
+	inline float isPlaying() { return vlc_mp.isPlaying(); }
+	inline float getPosition() { return vlc_mp.position(); }
+	inline float getVolume() { return vlc_mp.volume(); }
+	inline bool hasMedia() { return vlc_mp.media() != NULL; }
 	
 	void SetVideoWidget(QFrame* widget);
 	
@@ -39,9 +39,8 @@ public:
 	void ToggleMute();
 	void ChangeVolume(int newVolume);
 private:
-	libvlc_instance_t* vlc_instance;
-	libvlc_media_player_t* vlc_mp;
-	libvlc_media_t* vlc_current_media;
+	VLC::Instance vlc_instance;
+	VLC::MediaPlayer vlc_mp;
 	
 	QString loadedMedia;
 	QFrame* videoWidget;

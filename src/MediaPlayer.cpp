@@ -2,19 +2,19 @@
 
 MediaPlayer::MediaPlayer() {
 	setenv("VLC_PLUGIN_PATH", "/Applications/VLC.app/Contents/MacOS/plugins", 1);
-	vlc_instance = libvlc_new(0, NULL);
+	vlc_instance = VLC::Instance(0, NULL);
+	
 	if (vlc_instance == NULL) {
-		std::cout << "Error occured while initializing vlc." << std::endl;
-		std::cout << libvlc_printerr("%s") << std::endl;
+		std::cout << libvlc_printerr("Error occured while initializing vlc: %s") << std::endl;
 		return;
 	}
 	
-	vlc_mp = libvlc_media_player_new(vlc_instance);
+	vlc_mp = VLC::MediaPlayer(vlc_instance);
 }
 
 MediaPlayer::~MediaPlayer() {
 	if (vlc_instance == NULL) return;
-	libvlc_media_player_stop(vlc_mp);
+	vlc_mp.stop();
 	libvlc_media_player_release(vlc_mp);
 	libvlc_release(vlc_instance);
 }
@@ -24,10 +24,9 @@ void MediaPlayer::SetVideoWidget(QFrame* widget) {
 }
 
 void MediaPlayer::LoadMedia(const QString& filepath) {
-	libvlc_media_t* media = libvlc_media_new_path(vlc_instance, filepath.toStdString().c_str());
-	libvlc_media_player_set_media(vlc_mp, media);
+	VLC::Media media(vlc_instance, filepath.toStdString().c_str(), VLC::Media::FromPath);
+	vlc_mp.setMedia(media);
 	
-	vlc_current_media = media;
 	loadedMedia = filepath;
 }
 
@@ -46,31 +45,32 @@ void MediaPlayer::Play() {
 			libvlc_media_player_set_xwindow(vlc_mp, currentWId);
 	#endif
 	
-	libvlc_media_player_play(vlc_mp);
+	vlc_mp.play();
 }
 
 void MediaPlayer::Pause() {
-	libvlc_media_player_pause(vlc_mp);
+	if (vlc_mp.canPause())
+		vlc_mp.pause();
 }
 
 void MediaPlayer::Stop() {
-	libvlc_media_player_stop(vlc_mp);
+	vlc_mp.stop();
 }
 
 void MediaPlayer::ChangePosition(float newPosition) {
 	float pos = newPosition / (float) MP_POSITION_RESOLUTION;
-	libvlc_media_player_set_position(vlc_mp, pos);
+	vlc_mp.setPosition(pos);
 }
 
 // Audio specific
 void MediaPlayer::Mute(bool mute) {
-	libvlc_audio_set_mute(vlc_mp, mute);
+	vlc_mp.setMute(mute);
 }
 
 void MediaPlayer::ToggleMute() {
-	libvlc_audio_toggle_mute(vlc_mp);
+	vlc_mp.toggleMute();
 }
 
 void MediaPlayer::ChangeVolume(int newVolume) {
-	libvlc_audio_set_volume(vlc_mp, newVolume);
+	vlc_mp.setVolume(newVolume);
 }

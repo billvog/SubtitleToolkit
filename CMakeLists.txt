@@ -21,8 +21,11 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5 COMPONENTS Widgets Multimedia MultimediaWidgets REQUIRED)
 
 # libvlc
-include_directories(/Applications/VLC.app/Contents/MacOS/include)
+include_directories(${LIBVLC_INCLUDE_DIR})
 find_package(LIBVLC REQUIRED)
+
+# libvlc
+include_directories(${PROJECT_SOURCE_DIR}/lib/libvlcpp)
 
 set(source_dir ${PROJECT_SOURCE_DIR}/src)
 set(forms_dir ${PROJECT_SOURCE_DIR}/forms)

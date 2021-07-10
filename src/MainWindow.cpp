@@ -639,10 +639,10 @@ void MainWindow::VideoSeekableChanged(bool) {
 }
 
 void MainWindow::VideoDurationChanged(qint64 value) {
-//  if (value == 0) {
-//    ui->TimelineSlider->setMaximum(1);
-//    ui->TimelineSlider->setEnabled(false);
-//  }
+  if (value == 0) {
+    ui->TimelineSlider->setMaximum(1);
+    ui->TimelineSlider->setEnabled(false);
+  }
 
   ui->TimelineSlider->setEnabled(true);
   ui->TimelineSlider->setMaximum(value);
