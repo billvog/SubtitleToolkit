@@ -42,7 +42,6 @@ public:
 
 protected:
 	void closeEvent(QCloseEvent *e);
-	void resizeEvent(QResizeEvent *);
 
 	void dragEnterEvent(QDragEnterEvent *e);
 	void dropEvent(QDropEvent *e);
@@ -52,12 +51,10 @@ protected:
 private:
 	Ui::MainWindow *ui;
 
-	MediaPlayer* mPlayer;
-	
 	SubtitleTextHighlighter *subtitlesTextHighlighter;
 
 	QString SubFilePath;
-
+	
 	const QString SubtitleFileSelector = "Subtitle Files (*.srt *.vtt)";
 	const QString MediaFileSelector = "Media Files (*.mp4 *.mpeg *.mkv *.webm *.avi *.flv *.mov *.vob *.ogv);;All Files (*.*)";
 	bool hasFileOpen = false;
@@ -71,14 +68,9 @@ private:
 	QList<UndoItem> UndoItems;
 	QList<UndoItem> RedoItems;
 
-	QStandardItemModel *subtitlesModel;
+	QStandardItemModel *SubtitlesModel;
 
-	QFrame *videoItem;
-	QGraphicsTextItem *subTextItem;
-	QGraphicsScene *scene;
-	QMediaPlayer *player;
-	
-	qreal SubTextScaleFactor = 1.0;
+	MediaPlayer* mediaPlayer;
 	const qreal MediaSeekFactor = 500;
 
 	void SetupButtonIcons();
@@ -87,10 +79,6 @@ private:
 	void ConnectEvents();
 
 	void SetMediaControlsEnabled(bool isEnabled);
-
-	void UpdateUI();
-	void UpdateSubAlignment();
-	void UpdateSubPosition();
 
 	QTime MsToTime(int ms);
 
@@ -132,7 +120,8 @@ private slots:
 
 	void VideoPositionChanged(float pos);
 	void VideoPlaybackTimeChanged(const int64_t time);
-
+	void VideoEndReached();
+	
 	void TimelineSliderChanged(int value);
 	void TogglePlayVideo();
 	void StopVideo();
@@ -150,7 +139,6 @@ private slots:
 	void ClearSubtitle();
 
 	void SelectSubFromTable(int row);
-
 	void SubTableRowClicked(QModelIndex index);
 
 	void SubShowTimeChanged();

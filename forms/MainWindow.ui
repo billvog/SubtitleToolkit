@@ -22,7 +22,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="6">
+    <item row="1" column="2">
      <widget class="QLabel" name="TimelineLabel">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -58,7 +58,7 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="7">
+    <item row="5" column="0" colspan="3">
      <widget class="QGroupBox" name="SubtitleGroupBox">
       <property name="enabled">
        <bool>true</bool>
@@ -416,20 +416,7 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="0" colspan="6">
-     <widget class="QSlider" name="TimelineSlider">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="maximum">
-       <number>1</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="6">
+    <item row="3" column="2">
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -445,7 +432,36 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="0" colspan="7">
+    <item row="0" column="0" colspan="3">
+     <widget class="QFrame" name="MediaPlayerFrame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #000;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QSlider" name="TimelineSlider">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="maximum">
+       <number>1</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="3">
      <layout class="QHBoxLayout" name="MediaControls">
       <item>
        <widget class="QToolButton" name="TogglePlayButton">
@@ -549,34 +565,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="0" column="0" colspan="7">
-     <widget class="QGraphicsView" name="GraphicsView">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="acceptDrops">
-       <bool>false</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="backgroundBrush">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>0</blue>
-        </color>
-       </brush>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

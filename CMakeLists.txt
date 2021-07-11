@@ -55,13 +55,12 @@ add_executable(${CUR_TARGET} WIN32 MACOSX_BUNDLE ${RESOURCE_ADDED} ${source_file
 target_link_libraries(${CUR_TARGET} Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets ${LIBVLC_LIBRARY} ${LIBVLCCORE_LIBRARY})
 
 if (APPLE)
-	set_target_properties(${CUR_TARGET} PROPERTIES
-		BUNDLE True
-		MACOSX_BUNDLE_GUI_IDENTIFIER com.billvog.substudio
-		MACOSX_BUNDLE_BUNDLE_NAME SubStudio
-		MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
-		MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-		MACOSX_BUNDLE_ICON_FILE collared-icon.icns
-		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/MacosAppBundle.plist.in
-	)
+	configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets/MacOSXBundleInfo.plist.in
+        ${CMAKE_CURRENT_BINARY_DIR}/assets/MacOSXBundleInfo.plist
+    )
+
+    set_target_properties(${CUR_TARGET} PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/assets/MacOSXBundleInfo.plist
+    )
 endif()

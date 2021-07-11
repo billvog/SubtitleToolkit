@@ -78,8 +78,8 @@ bool MediaPlayer::ReloadSubtitles(const QString& filepath) {
 	bool slaveOk = vlc_mp.addSlave(VLC::MediaSlave::Type::Subtitle, "file://" + filepath.toStdString(), true);
 	if (!slaveOk) return false;
 	
-	vlc_mp.setPosition(getPosition() + 1);
-	vlc_mp.setPosition(getPosition() - 1);
+	ChangePosition(getPositionInMs() + .1);
+	ChangePosition(getPositionInMs() - .1);
 	
 	return true;
 }

@@ -27,6 +27,8 @@ public:
 	inline bool hasMedia() { return vlc_mp.media() != NULL; }
 	inline const QString& getMediaPath() { return loadedMedia; };
 	
+	inline bool isMuted() { return vlc_mp.mute(); }
+	
 	void SetVideoWidget(QFrame* widget);
 	
 	// Media actions

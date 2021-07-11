@@ -2,45 +2,42 @@
 #include "../Forms/ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-  ui->setupUi(this);
+	ui->setupUi(this);
 
-  SetWindowTitle("");
-  SetupButtonIcons();
-  SetupVideoWidget();
-  SetupSubtitlesTable();
-  ConnectEvents();
+	// Setup
+	SetWindowTitle("");
+	SetupButtonIcons();
+	SetupVideoWidget();
+	SetupSubtitlesTable();
+	ConnectEvents();
 
-  // Media Player Group
-  SetMediaControlsEnabled(false);
+	// Media Player Group
+	SetMediaControlsEnabled(false);
 
-  // Subtitle Group
-  ui->SubtitleGroupBox->setEnabled(false);
+	// Subtitle Group
+	ui->SubtitleGroupBox->setEnabled(false);
 
-  // Syntax Highlighing on Subtitle Text Field
-  subtitlesTextHighlighter = new SubtitleTextHighlighter(ui->SubtitleTextEdit->document());
+	// Syntax Highlighing on Subtitle Text Field
+	subtitlesTextHighlighter = new SubtitleTextHighlighter(ui->SubtitleTextEdit->document());
 }
 
 MainWindow::~MainWindow() {
-  delete ui;
+	delete ui;
 }
 
 void MainWindow::closeEvent(QCloseEvent *e) {
-  if (!CheckIfSaved()) {
-    e->ignore();
-    return;
-  }
+	if (!CheckIfSaved()) {
+		e->ignore();
+		return;
+	}
 
-  e->accept();
-}
-
-void MainWindow::resizeEvent(QResizeEvent *) {
-  UpdateUI();
+	e->accept();
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *e) {
-  if (e->mimeData()->hasUrls()) {
-    e->acceptProposedAction();
-  }
+	if (e->mimeData()->hasUrls()) {
+		e->acceptProposedAction();
+	}
 }
 
 void MainWindow::dropEvent(QDropEvent *e) {
@@ -59,7 +56,7 @@ void MainWindow::dropEvent(QDropEvent *e) {
       OpenMediaFile(path);
     }
     else {
-      QMessageBox::critical(this, "Error", "Unsupported file type: \"" + suffix + "\"");
+      QMessageBox::critical(this, "Error", "Unsupported file format: \"" + suffix + "\"");
       return;
     }
   }
@@ -87,40 +84,17 @@ void MainWindow::SetupButtonIcons() {
 }
 
 void MainWindow::SetupVideoWidget() {
-	scene = new QGraphicsScene(this);
-	
-	QGraphicsView *view = ui->GraphicsView;
-	view->setScene(scene);
-	view->show();
-
-	videoItem = new QFrame(view);
-	subTextItem = new QGraphicsTextItem();
-	
-	scene->addWidget(videoItem);
-	scene->addItem(subTextItem);
-	
-	mPlayer = new MediaPlayer();
-	mPlayer->SetVideoWidget(videoItem);
-
-	subTextItem->setPlainText(QString());
-	subTextItem->setDefaultTextColor(QColorConstants::White);
-
-	QFont subtitleFont = subTextItem->font();
-	subtitleFont.setPixelSize(26);
-	subTextItem->setFont(subtitleFont);
-
-	QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
-	shadowEffect->setOffset(1, 1);
-	subTextItem->setGraphicsEffect(shadowEffect);
+	mediaPlayer = new MediaPlayer();
+	mediaPlayer->SetVideoWidget(ui->MediaPlayerFrame);
 }
 
 void MainWindow::SetupSubtitlesTable() {
-  subtitlesModel = new QStandardItemModel(Subtitles.size(), 3, this);
-  subtitlesModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Show")));
-  subtitlesModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Hide")));
-  subtitlesModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Subtitle")));
+  SubtitlesModel = new QStandardItemModel(Subtitles.size(), 3, this);
+  SubtitlesModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Show")));
+  SubtitlesModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Hide")));
+  SubtitlesModel->setHorizontalHeaderItem(2, new QStandardItem(QString("Subtitle")));
 
-  ui->SubTableView->setModel(subtitlesModel);
+  ui->SubTableView->setModel(SubtitlesModel);
 }
 
 void MainWindow::ConnectEvents() {
@@ -154,11 +128,6 @@ void MainWindow::ConnectEvents() {
 	connect(ui->ActionHelpAbout, SIGNAL(triggered()), this, SLOT(AboutHelpAction()));
 	connect(ui->ActionHelpAboutQt, SIGNAL(triggered()), this, SLOT(AboutQtHelpAction()));
 
-	// Media Player
-//	connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(VideoSeekableChanged(bool)));
-//	connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(VideoPositionChanged(qint64)));
-//	connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(VideoDurationChanged(qint64)));
-
 	connect(ui->TimelineSlider, SIGNAL(sliderMoved(int)), this, SLOT(TimelineSliderChanged(int)));
 	connect(ui->TogglePlayButton, SIGNAL(clicked()), this, SLOT(TogglePlayVideo()));
 	connect(ui->StopButton, SIGNAL(clicked()), this, SLOT(StopVideo()));
@@ -191,12 +160,14 @@ void MainWindow::ConnectEvents() {
 	connect(ui->RemoveSubButton, SIGNAL(clicked()), this, SLOT(RemoveSubtitle()));
 	
 	// Media player
-	mPlayer->getEventManager()->onTimeChanged([this](const int64_t time) {
+	mediaPlayer->getEventManager()->onTimeChanged([this](const int64_t time) {
 		VideoPlaybackTimeChanged(time);
 	});
-	
-	mPlayer->getEventManager()->onPositionChanged([this](const float pos) {
+	mediaPlayer->getEventManager()->onPositionChanged([this](const float pos) {
 		VideoPositionChanged(pos);
+	});
+	mediaPlayer->getEventManager()->onEndReached([this]() {
+		VideoEndReached();
 	});
 }
 
@@ -208,35 +179,6 @@ void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
 	ui->BackwardSeekButton->setEnabled(isEnabled);
 	ui->ForwardSeekButton->setEnabled(isEnabled);
 	ui->StopButton->setEnabled(isEnabled);
-}
-
-void MainWindow::UpdateUI() {
-	scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
-	videoItem->setFixedSize(ui->GraphicsView->size());
-	
-	// Update Subtitle Text
-	SubTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
-	subTextItem->setScale(SubTextScaleFactor);
-
-	UpdateSubPosition();
-}
-
-void MainWindow::UpdateSubAlignment() {
-  subTextItem->setTextWidth(subTextItem->boundingRect().width());
-  QTextBlockFormat format;
-  format.setAlignment(Qt::AlignCenter);
-  QTextCursor cursor = subTextItem->textCursor();
-  cursor.select(QTextCursor::Document);
-  cursor.mergeBlockFormat(format);
-  cursor.clearSelection();
-  subTextItem->setTextCursor(cursor);
-}
-
-void MainWindow::UpdateSubPosition() {
-  QSizeF textRectSize = subTextItem->boundingRect().size() * SubTextScaleFactor;
-  qreal target_y = videoItem->size().height() - textRectSize.height();
-  qreal target_x = (videoItem->size().width() - textRectSize.width()) / 2;
-  subTextItem->setPos(target_x, target_y);
 }
 
 QTime MainWindow::MsToTime(int ms) {
@@ -342,7 +284,7 @@ void MainWindow::NewAction() {
     return;
   }
 
-  subtitlesModel->clear();
+  SubtitlesModel->clear();
   Subtitles.clear();
 
   SubFilePath.clear();
@@ -352,8 +294,6 @@ void MainWindow::NewAction() {
 
   EditingSubtitleIndex = -1;
   PrevEditinSubtitleIndex = EditingSubtitleIndex;
-
-  subTextItem->setPlainText(QString());
 
   ui->SubtitleTextEdit->setPlainText(QString());
   ui->ShowSubTimeEdit->setTime(QTime());
@@ -413,7 +353,7 @@ void MainWindow::CloseAction() {
     return;
   }
 
-  subtitlesModel->clear();
+  SubtitlesModel->clear();
   Subtitles.clear();
 
   SubFilePath.clear();
@@ -424,8 +364,6 @@ void MainWindow::CloseAction() {
 
   UndoItems.clear();
   RedoItems.clear();
-
-  subTextItem->setPlainText(QString());
 
   ui->SubtitleTextEdit->setPlainText(QString());
   ui->ShowSubTimeEdit->setTime(QTime());
@@ -454,7 +392,7 @@ void MainWindow::UndoAction() {
     int i = Subtitles.indexOf(undo.getNewItem());
     if (i >= 0) {
       Subtitles.removeAt(i);
-      subtitlesModel->removeRow(i);
+      SubtitlesModel->removeRow(i);
     }
   }
   else if (itemType == UndoItem::ItemType::REMOVE) {
@@ -464,9 +402,9 @@ void MainWindow::UndoAction() {
       return;
     }
 
-    subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
+    SubtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+    SubtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+    SubtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
 
     Subtitles.push_back(SubItem);
 
@@ -477,9 +415,9 @@ void MainWindow::UndoAction() {
     if (i >= 0) {
       SubtitleItem SubItem(undo.getOldItem());
 
-      subtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
+      SubtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+      SubtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+      SubtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
 
       Subtitles.replace(i, SubItem);
 
@@ -492,9 +430,9 @@ void MainWindow::UndoAction() {
       for (int idx = 0; idx < undo.getOldItems().length(); idx++) {
         SubtitleItem oldItem = undo.getOldItems().at(idx);
 
-        subtitlesModel->setItem(idx, 0, new QStandardItem(oldItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-        subtitlesModel->setItem(idx, 1, new QStandardItem(oldItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-        subtitlesModel->setItem(idx, 2, new QStandardItem(oldItem.getSubtitle()));
+        SubtitlesModel->setItem(idx, 0, new QStandardItem(oldItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+        SubtitlesModel->setItem(idx, 1, new QStandardItem(oldItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+        SubtitlesModel->setItem(idx, 2, new QStandardItem(oldItem.getSubtitle()));
 
         Subtitles.append(oldItem);
       }
@@ -503,7 +441,7 @@ void MainWindow::UndoAction() {
   RedoItems.append(undo);
   UndoItems.removeLast();
 
-  subtitlesModel->sort(0);
+  SubtitlesModel->sort(0);
   std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
   SelectSubFromTable(Subtitles.indexOf(NewItem));
@@ -530,9 +468,9 @@ void MainWindow::RedoAction() {
       return;
     }
 
-    subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
+    SubtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+    SubtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+    SubtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
 
     Subtitles.push_back(SubItem);
 
@@ -542,7 +480,7 @@ void MainWindow::RedoAction() {
     int i = Subtitles.indexOf(redo.getNewItem());
     if (i >= 0) {
       Subtitles.removeAt(i);
-      subtitlesModel->removeRow(i);
+      SubtitlesModel->removeRow(i);
     }
   }
   else if (itemType == UndoItem::ItemType::EDIT) {
@@ -550,9 +488,9 @@ void MainWindow::RedoAction() {
     if (i >= 0) {
       SubtitleItem SubItem(redo.getNewItem());
 
-      subtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
+      SubtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+      SubtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+      SubtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
 
       Subtitles.replace(i, SubItem);
 
@@ -565,9 +503,9 @@ void MainWindow::RedoAction() {
     for (int idx = 0; idx < redo.getNewItems().length(); idx++) {
       SubtitleItem newItem = redo.getNewItems().at(idx);
 
-      subtitlesModel->setItem(idx, 0, new QStandardItem(newItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(idx, 1, new QStandardItem(newItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(idx, 2, new QStandardItem(newItem.getSubtitle()));
+      SubtitlesModel->setItem(idx, 0, new QStandardItem(newItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+      SubtitlesModel->setItem(idx, 1, new QStandardItem(newItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+      SubtitlesModel->setItem(idx, 2, new QStandardItem(newItem.getSubtitle()));
 
       Subtitles.append(newItem);
     }
@@ -576,7 +514,7 @@ void MainWindow::RedoAction() {
   UndoItems.append(redo);
   RedoItems.removeLast();
 
-  subtitlesModel->sort(0);
+  SubtitlesModel->sort(0);
   std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
   SelectSubFromTable(Subtitles.indexOf(NewItem));
@@ -603,8 +541,8 @@ void MainWindow::OpenMediaAction() {
 }
 
 void MainWindow::CloseMediaAction() {
-	mPlayer->Stop();
-	mPlayer->UnloadMedia();
+	mediaPlayer->Stop();
+	mediaPlayer->UnloadMedia();
 	
 	SetMediaControlsEnabled(false);
 	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
@@ -622,22 +560,21 @@ void MainWindow::AboutQtHelpAction() {
 
 // Media player
 void MainWindow::OpenMediaFile(const QString &Path) {
-	mPlayer->LoadMedia(Path);
-	mPlayer->Play();
+	mediaPlayer->LoadMedia(Path);
+	mediaPlayer->Play();
 	
 	if (!SubFilePath.isEmpty()) {
-		mPlayer->AddSubtitlesFile(SubFilePath);
+		mediaPlayer->AddSubtitlesFile(SubFilePath);
 	}
 
 	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
 	ui->StopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
 
 	SetMediaControlsEnabled(true);
-	UpdateUI();
 }
 
 void MainWindow::VideoPlaybackTimeChanged(const int64_t time) {
-	int TotalDuration = mPlayer->getDuration();
+	int TotalDuration = mediaPlayer->getDuration();
 	int SubDuration = QTime(0, 0, 0).msecsTo(ui->DurationSubTimeEdit->time());
 
 	ui->ShowSubTimeEdit->setTime(MsToTime(time));
@@ -650,45 +587,51 @@ void MainWindow::VideoPlaybackTimeChanged(const int64_t time) {
 }
 
 void MainWindow::VideoPositionChanged(float pos) {
-	int TotalDuration = mPlayer->getDuration();
-	float CurrentPosition = pos * (float) mPlayer->getDuration();
-	int64_t RealPosition = mPlayer->getPositionInMs();
+	int TotalDuration = mediaPlayer->getDuration();
+	float CurrentPosition = pos * (float) mediaPlayer->getDuration();
+	int64_t RealPosition = mediaPlayer->getPositionInMs();
 
 	if (!ui->TimelineSlider->isSliderDown())
 		ui->TimelineSlider->setValue(CurrentPosition);
 }
 
+void MainWindow::VideoEndReached() {
+	StopVideo();
+}
+
 void MainWindow::TimelineSliderChanged(int value) {
-	mPlayer->ChangePosition(value);
+	mediaPlayer->ChangePosition(value);
 }
 
 void MainWindow::TogglePlayVideo() {
-	if (mPlayer->isPlaying()) {
+	if (mediaPlayer->isPlaying()) {
 		ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-		mPlayer->Pause();
+		mediaPlayer->Pause();
 	}
 	else {
 		ui->StopButton->setEnabled(true);
 		ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-		mPlayer->Play();
+		mediaPlayer->Play();
 	}
 }
 
 void MainWindow::StopVideo() {
+	mediaPlayer->Stop();
+	
 	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 	ui->StopButton->setEnabled(false);
-	mPlayer->Stop();
+	ui->TimelineSlider->setValue(0);
 }
 
 void MainWindow::SeekForwards() {
-	if (mPlayer->hasMedia()) {
-		mPlayer->ChangePosition(mPlayer->getPositionInMs() + MediaSeekFactor);
+	if (mediaPlayer->hasMedia()) {
+		mediaPlayer->ChangePosition(mediaPlayer->getPositionInMs() + MediaSeekFactor);
 	}
 }
 
 void MainWindow::SeekBackwards() {
-	if (mPlayer->hasMedia()) {
-		mPlayer->ChangePosition(mPlayer->getPositionInMs() + -MediaSeekFactor);
+	if (mediaPlayer->hasMedia()) {
+		mediaPlayer->ChangePosition(mediaPlayer->getPositionInMs() + -MediaSeekFactor);
 	}
 }
 
@@ -701,18 +644,18 @@ void MainWindow::VolumeDown() {
 }
 
 void MainWindow::ToggleMuteAudio() {
-  if (player->isMuted()) {
-    player->setMuted(false);
-    ui->ToggleMuteButton->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
-  }
-  else {
-    player->setMuted(true);
-    ui->ToggleMuteButton->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
-  }
+	if (mediaPlayer->isMuted()) {
+		mediaPlayer->Mute(false);
+		ui->ToggleMuteButton->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+	}
+	else {
+		mediaPlayer->Mute(true);
+		ui->ToggleMuteButton->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
+	}
 }
 
 void MainWindow::VolumeSliderChanged(int value) {
-	mPlayer->ChangeVolume(value);
+	mediaPlayer->ChangeVolume(value);
 }
 
 // Subtitle Group
@@ -736,13 +679,13 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
 			Subtitles = SubParser::ParseVtt(SubFilePath);
 		}
 		else {
-			throw "Unsupported file type: \"" + suffix + "\"";
+			throw "Unsupported file format: \"" + suffix + "\"";
 		}
 		
 		if (Subtitles.length() == 0)
 			throw "File format is corrupt and could not be parsed.";
 		
-		mPlayer->AddSubtitlesFile(SubFilePath);
+		mediaPlayer->AddSubtitlesFile(SubFilePath);
 		
 	}  catch (const QString error) {
 		QMessageBox::critical(this, "Parse Error", error);
@@ -750,7 +693,7 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
 		return;
 	}
 
-	subtitlesModel->clear();
+	SubtitlesModel->clear();
 
 	if (Subtitles.length() == 0) {
 		QMessageBox::critical(this, "Parse Error", "File format is corrupt and could not be parsed.");
@@ -759,12 +702,12 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
 	}
 
 	for (int i = 0; i < Subtitles.size(); i++) {
-		subtitlesModel->setItem(i, 0, new QStandardItem(Subtitles.at(i).getShowTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(i, 1, new QStandardItem(Subtitles.at(i).getHideTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(i, 2, new QStandardItem(Subtitles.at(i).getSubtitle()));
+		SubtitlesModel->setItem(i, 0, new QStandardItem(Subtitles.at(i).getShowTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(i, 1, new QStandardItem(Subtitles.at(i).getHideTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(i, 2, new QStandardItem(Subtitles.at(i).getSubtitle()));
 	}
 
-	subtitlesModel->sort(0);
+	SubtitlesModel->sort(0);
 
 	ui->SubtitleGroupBox->setEnabled(true);
 	SetIsSaved(true);
@@ -774,7 +717,7 @@ void MainWindow::ReloadSubtitles() {
 	QFileInfo subFileInfo(SubFilePath);
 	
 	QString tempPath = QDir::tempPath() + "/" + QString::fromStdString(SubStudio::bundle_identifier);
-	QString tempSubPath = tempPath + "/file.srt";
+	QString tempSubPath = tempPath + "/" + subFileInfo.fileName();
 	
 	if (!QDir(tempPath).exists()) {
 		QDir().mkdir(tempPath);
@@ -783,7 +726,7 @@ void MainWindow::ReloadSubtitles() {
 	std::cout << "Saving temp file to " <<  tempSubPath.toStdString() << std::endl;
 	try {
 		if (SaveFileTo(tempSubPath)) {
-			mPlayer->ReloadSubtitles(tempSubPath);
+			mediaPlayer->ReloadSubtitles(tempSubPath);
 		}
 	} catch (const QString error) {
 		std::cout << "Error saving temp file to " <<  tempSubPath.toStdString() << ": " << error.toStdString() << std::endl;
@@ -791,22 +734,24 @@ void MainWindow::ReloadSubtitles() {
 }
 
 void MainWindow::ShowAvailableSub() {
-  int64_t Position = mPlayer->getPositionInMs();
+	int64_t Position = mediaPlayer->getPositionInMs();
 
-  for (int i = 0; i < Subtitles.size(); i++) {
-    int SubShowTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i).getShowTimestamp());
-    int SubHideTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i).getHideTimestamp());
+	ClearSubtitle();
 
-    int NextSubShowTime = -1;
-    if (Subtitles.size()-1 >= i+1) {
-      NextSubShowTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i+1).getShowTimestamp());
-    }
+	for (int i = 0; i < Subtitles.size(); i++) {
+		int SubShowTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i).getShowTimestamp());
+		int SubHideTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i).getHideTimestamp());
 
-    if (SubShowTime <= Position && Position <= SubHideTime && (Position != NextSubShowTime)) {
-      DisplaySubtitle(Subtitles.at(i));
-      break;
-    }
-  }
+		int NextSubShowTime = -1;
+		if (Subtitles.size()-1 >= i+1) {
+			NextSubShowTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i+1).getShowTimestamp());
+		}
+
+		if (SubShowTime <= Position && Position <= SubHideTime && (Position != NextSubShowTime)) {
+			DisplaySubtitle(Subtitles.at(i));
+			break;
+		}
+	}
 }
 
 void MainWindow::DisplaySubtitle(const SubtitleItem& subItem) {
@@ -859,10 +804,11 @@ void MainWindow::SelectSubFromTable(int row) {
 		  return;
 		}
 	}
+	
 	const SubtitleItem selectedSub = Subtitles.at(row);
-	if (mPlayer->hasMedia()) {
+	if (mediaPlayer->hasMedia()) {
 		float position = QTime(0, 0, 0, 0).msecsTo(selectedSub.getShowTimestamp());
-		mPlayer->ChangePosition(position);
+		mediaPlayer->ChangePosition(position);
 	}
 	else {
 		DisplaySubtitle(selectedSub);
@@ -970,7 +916,7 @@ void MainWindow::SubTextToggleTag(const QString &tag) {
 }
 
 void MainWindow::SubTextChanged() {
-	if (EditingSubtitleIndex >= 0 && Subtitles.at(EditingSubtitleIndex).getSubtitle() != ui->SubtitleTextEdit->toPlainText())
+	if (Subtitles.length() <= EditingSubtitleIndex && Subtitles.at(EditingSubtitleIndex).getSubtitle() != ui->SubtitleTextEdit->toPlainText())
 		isSubApplied = false;
 }
 
@@ -1031,31 +977,33 @@ void MainWindow::SubStrikeoutClicked() {
 
 bool MainWindow::ApplySubtitle(const SubtitleItem &item, const int index) {
 	if (index < 0) {
-		subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(item.getSubtitle()));
+		SubtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(item.getSubtitle()));
 
 		Subtitles.push_back(item);
 		UndoItems.append(UndoItem(item, UndoItem::ItemType::ADD));
 	}
 	else {
-		subtitlesModel->setItem(index, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(index, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(index, 2, new QStandardItem(item.getSubtitle()));
+		SubtitlesModel->setItem(index, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(index, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(index, 2, new QStandardItem(item.getSubtitle()));
 
 		UndoItems.append(UndoItem(Subtitles.at(index), item, UndoItem::ItemType::EDIT));
 		Subtitles.replace(index, item);
 	}
 
-	subtitlesModel->sort(0);
+	SubtitlesModel->sort(0);
 	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
 	isSubApplied = true;
 	SetIsSaved(false);
 
-	ReloadSubtitles();
-	ShowAvailableSub();
-
+	if (mediaPlayer->hasMedia()) {
+		ShowAvailableSub();
+		ReloadSubtitles();
+	}
+	
 	return true;
 }
 
@@ -1066,14 +1014,14 @@ bool MainWindow::ApplySubtitles(const QList<SubtitleItem> &items) {
 	for (int idx = 0; idx < items.length(); idx++) {
 		SubtitleItem item = items.at(idx);
 
-		subtitlesModel->setItem(idx, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(idx, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-		subtitlesModel->setItem(idx, 2, new QStandardItem(item.getSubtitle()));
+		SubtitlesModel->setItem(idx, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(idx, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		SubtitlesModel->setItem(idx, 2, new QStandardItem(item.getSubtitle()));
 
 		Subtitles.append(item);
 	}
 
-	subtitlesModel->sort(0);
+	SubtitlesModel->sort(0);
 	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
 	isSubApplied = true;
@@ -1118,8 +1066,8 @@ void MainWindow::RemoveSubtitle() {
       return;
   }
 
-  subtitlesModel->removeRow(EditingSubtitleIndex);
-  subtitlesModel->sort(0);
+  SubtitlesModel->removeRow(EditingSubtitleIndex);
+  SubtitlesModel->sort(0);
 
   UndoItems.append(UndoItem(Subtitles.at(EditingSubtitleIndex), UndoItem::ItemType::REMOVE));
 

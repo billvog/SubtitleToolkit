@@ -64,8 +64,6 @@ bool SubParser::ExportSrt(QList<SubtitleItem> items, QString filepath) {
 		return false;
 	}
 
-	std::cout << "Opened file: " << filepath.toStdString() << std::endl;
-
 	QTextStream out(&File);
 	int SubCount = 0;
 
