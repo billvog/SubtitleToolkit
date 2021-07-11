@@ -30,6 +30,11 @@ void MediaPlayer::LoadMedia(const QString& filepath) {
 	loadedMedia = filepath;
 }
 
+void MediaPlayer::UnloadMedia() {
+	loadedMedia.clear();
+	vlc_mp.media()->parseStop();
+}
+
 void MediaPlayer::Play() {
 	if (videoWidget) {
 		currentWId = videoWidget->winId();
@@ -64,13 +69,19 @@ void MediaPlayer::ChangePosition(int64_t newPosition) {
 	vlc_mp.setPosition(pos);
 }
 
-bool MediaPlayer::AddSubtitlesFile(const std::string& filepath) {
-	loadedSubtitles = QString::fromStdString(filepath);
+bool MediaPlayer::AddSubtitlesFile(const QString& filepath) {
+	loadedSubtitles = filepath;
 	return vlc_mp.addSlave(VLC::MediaSlave::Type::Subtitle, "file://" + loadedSubtitles.toStdString(), true);
 }
 
-bool MediaPlayer::ReloadSubtitles() {
-	return vlc_mp.addSlave(VLC::MediaSlave::Type::Subtitle, "file://" + loadedSubtitles.toStdString(), true);
+bool MediaPlayer::ReloadSubtitles(const QString& filepath) {
+	bool slaveOk = vlc_mp.addSlave(VLC::MediaSlave::Type::Subtitle, "file://" + filepath.toStdString(), true);
+	if (!slaveOk) return false;
+	
+	vlc_mp.setPosition(getPosition() + 1);
+	vlc_mp.setPosition(getPosition() - 1);
+	
+	return true;
 }
 
 // Audio specific

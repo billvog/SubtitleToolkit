@@ -59,30 +59,32 @@ QList<SubtitleItem> SubParser::ParseSrt(QString filepath) {
 }
 
 bool SubParser::ExportSrt(QList<SubtitleItem> items, QString filepath) {
-  QFile File(filepath);
-  if (!File.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    return false;
-  }
+	QFile File(filepath);
+		if (!File.open(QIODevice::WriteOnly | QIODevice::Text)) {
+		return false;
+	}
 
-  QTextStream out(&File);
-  int SubCount = 0;
+	std::cout << "Opened file: " << filepath.toStdString() << std::endl;
 
-  for (int i = 0; i < items.size(); i++) {
-    out << ++SubCount << "\n";
-    out << items.at(i).getShowTimestamp().toString("hh:mm:ss,zzz");
-    out << " --> ";
-    out << items.at(i).getHideTimestamp().toString("hh:mm:ss,zzz");
-    out << "\n";
-    out << items.at(i).getSubtitle();
+	QTextStream out(&File);
+	int SubCount = 0;
 
-    if (i != items.size() - 1) {
-      out << "\n\n";
-    }
-  }
+	for (int i = 0; i < items.size(); i++) {
+		out << ++SubCount << "\n";
+		out << items.at(i).getShowTimestamp().toString("hh:mm:ss,zzz");
+		out << " --> ";
+		out << items.at(i).getHideTimestamp().toString("hh:mm:ss,zzz");
+		out << "\n";
+		out << items.at(i).getSubtitle();
 
-  File.close();
+		if (i != items.size() - 1) {
+			out << "\n\n";
+		}
+	}
 
-  return true;
+	File.close();
+
+	return true;
 }
 
 // WebVTT (.vtt)

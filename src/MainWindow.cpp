@@ -314,6 +314,27 @@ void MainWindow::SetIsSaved(bool value) {
   isSaved = value;
 }
 
+bool MainWindow::SaveFileTo(const QString& filepath) {
+	if (filepath.isEmpty()) {
+		return false;
+	}
+
+	QString suffix(QFileInfo(filepath).suffix());
+	if (suffix == "srt") {
+		if (!SubParser::ExportSrt(Subtitles, filepath)) {
+			throw  "Could't save file to \"" + filepath + "\"";
+		}
+	}
+	else if (suffix == "vtt") {
+		if (!SubParser::ExportVtt(Subtitles, filepath)) {
+			throw  "Could't save file to \"" + filepath + "\"";
+		}
+	}
+	else {
+		throw  "Unsupported file format \"" + filepath + "\"";
+	}
+}
+
 // Actions
 // File
 void MainWindow::NewAction() {
@@ -358,59 +379,33 @@ void MainWindow::OpenAction() {
 }
 
 void MainWindow::SaveAction() {
-  if (SubFilePath.isEmpty()) {
-    SaveAsAction();
-    return;
-  }
+	if (SubFilePath.isEmpty()) {
+		SaveAsAction();
+		return;
+	}
 
-  QString suffix(QFileInfo(SubFilePath).suffix());
-  if (suffix == "srt") {
-    if (!SubParser::ExportSrt(Subtitles, SubFilePath)) {
-      QMessageBox::critical(this, "Error", "Could't save file to \"" + SubFilePath + "\"");
-      return;
-    }
-  }
-  else if (suffix == "vtt") {
-    if (!SubParser::ExportVtt(Subtitles, SubFilePath)) {
-      QMessageBox::critical(this, "Error", "Could't save file to \"" + SubFilePath + "\"");
-      return;
-    }
-  }
-  else {
-    QMessageBox::critical(this, "Error", "Unsupported file type \"" + suffix + "\"");
-    return;
-  }
+	try {
+		if (SaveFileTo(SubFilePath)) {
+			SetIsSaved(true);
+		}
+	} catch (const QString error) {
+		QMessageBox::critical(this, "Error", error);
+	}
 
-  SetIsSaved(true);
+	SetIsSaved(true);
 }
 
 void MainWindow::SaveAsAction() {
-  QString file = QFileDialog::getSaveFileName(this, "Save File As", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), SubtitleFileSelector);
+	QString file = QFileDialog::getSaveFileName(this, "Save File As", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), SubtitleFileSelector);
 
-  if (file.isEmpty()) {
-    return;
-  }
-
-  QString suffix(QFileInfo(file).suffix());
-  if (suffix == "srt") {
-    if (!SubParser::ExportSrt(Subtitles, file)) {
-      QMessageBox::critical(this, "Error", "Could't save file to \"" + file + "\"");
-      return;
-    }
-  }
-  else if (suffix == "vtt") {
-    if (!SubParser::ExportVtt(Subtitles, file)) {
-      QMessageBox::critical(this, "Error", "Could't save file to \"" + file + "\"");
-      return;
-    }
-  }
-  else {
-    QMessageBox::critical(this, "Error", "Unsupported file type \"" + suffix + "\"");
-    return;
-  }
-
-  SubFilePath = file;
-  SetIsSaved(true);
+	try {
+		if (SaveFileTo(file)) {
+			SubFilePath = file;
+			SetIsSaved(true);
+		}
+	} catch (const QString error) {
+		QMessageBox::critical(this, "Error", error);
+	}
 }
 
 void MainWindow::CloseAction() {
@@ -608,12 +603,11 @@ void MainWindow::OpenMediaAction() {
 }
 
 void MainWindow::CloseMediaAction() {
-  player->setMedia(QMediaContent());
-  player->stop();
-
-  SetMediaControlsEnabled(false);
-
-  ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+	mPlayer->Stop();
+	mPlayer->UnloadMedia();
+	
+	SetMediaControlsEnabled(false);
+	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 }
 
 // Help
@@ -630,6 +624,10 @@ void MainWindow::AboutQtHelpAction() {
 void MainWindow::OpenMediaFile(const QString &Path) {
 	mPlayer->LoadMedia(Path);
 	mPlayer->Play();
+	
+	if (!SubFilePath.isEmpty()) {
+		mPlayer->AddSubtitlesFile(SubFilePath);
+	}
 
 	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
 	ui->StopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
@@ -744,8 +742,7 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
 		if (Subtitles.length() == 0)
 			throw "File format is corrupt and could not be parsed.";
 		
-		if (!mPlayer->AddSubtitlesFile(SubFilePath.toStdString()))
-			throw "Error openning the file";
+		mPlayer->AddSubtitlesFile(SubFilePath);
 		
 	}  catch (const QString error) {
 		QMessageBox::critical(this, "Parse Error", error);
@@ -773,10 +770,28 @@ void MainWindow::OpenSubtitleFile(const QString &Path) {
 	SetIsSaved(true);
 }
 
+void MainWindow::ReloadSubtitles() {
+	QFileInfo subFileInfo(SubFilePath);
+	
+	QString tempPath = QDir::tempPath() + "/" + QString::fromStdString(SubStudio::bundle_identifier);
+	QString tempSubPath = tempPath + "/file.srt";
+	
+	if (!QDir(tempPath).exists()) {
+		QDir().mkdir(tempPath);
+	}
+	
+	std::cout << "Saving temp file to " <<  tempSubPath.toStdString() << std::endl;
+	try {
+		if (SaveFileTo(tempSubPath)) {
+			mPlayer->ReloadSubtitles(tempSubPath);
+		}
+	} catch (const QString error) {
+		std::cout << "Error saving temp file to " <<  tempSubPath.toStdString() << ": " << error.toStdString() << std::endl;
+	}
+}
+
 void MainWindow::ShowAvailableSub() {
   int64_t Position = mPlayer->getPositionInMs();
-
-//  ClearSubtitle();
 
   for (int i = 0; i < Subtitles.size(); i++) {
     int SubShowTime = QTime(0, 0, 0).msecsTo(Subtitles.at(i).getShowTimestamp());
@@ -794,37 +809,29 @@ void MainWindow::ShowAvailableSub() {
   }
 }
 
-void MainWindow::DisplaySubtitle(const SubtitleItem &subItem) {
-  int index = Subtitles.indexOf(subItem);
-  if (index == -1)
-    return;
+void MainWindow::DisplaySubtitle(const SubtitleItem& subItem) {
+	int index = Subtitles.indexOf(subItem);
+	if (index == -1)
+		return;
 
-  // Display Subtitle on Video
-//  subTextItem->setHtml(subItem.getSubtitle().replace('\n', "<br>"));
-//
-//  UpdateSubAlignment();
-//  UpdateSubPosition();
+	// Fill active Subtitle values on fields
+	int SubShowTime = QTime(0, 0, 0).msecsTo(subItem.getShowTimestamp());
+	int SubHideTime = QTime(0, 0, 0).msecsTo(subItem.getHideTimestamp());
 
-  // Fill active Subtitle values on fields
-  int SubShowTime = QTime(0, 0, 0).msecsTo(subItem.getShowTimestamp());
-  int SubHideTime = QTime(0, 0, 0).msecsTo(subItem.getHideTimestamp());
+	ui->ShowSubTimeEdit->setTime(subItem.getShowTimestamp());
+	ui->HideSubTimeEdit->setTime(subItem.getHideTimestamp());
+	ui->DurationSubTimeEdit->setTime(MsToTime(SubHideTime - SubShowTime));
+	ui->SubtitleTextEdit->setPlainText(subItem.getSubtitle());
 
-  ui->ShowSubTimeEdit->setTime(subItem.getShowTimestamp());
-  ui->HideSubTimeEdit->setTime(subItem.getHideTimestamp());
-  ui->SubtitleTextEdit->setPlainText(subItem.getSubtitle());
-  ui->DurationSubTimeEdit->setTime(MsToTime(SubHideTime - SubShowTime));
+	// Select active Subtitle on table
+	ui->SubTableView->selectRow(index);
+	EditingSubtitleIndex = index;
+	PrevEditinSubtitleIndex = EditingSubtitleIndex;
 
-  // Select active Subtitle on table
-  ui->SubTableView->selectRow(index);
-  EditingSubtitleIndex = index;
-  PrevEditinSubtitleIndex = EditingSubtitleIndex;
-
-  isSubApplied = true;
+	isSubApplied = true;
 }
 
 void MainWindow::ClearSubtitle() {
-//	subTextItem->setPlainText(QString());
-
 	ui->ShowSubTimeEdit->setTime(QTime());
 	ui->HideSubTimeEdit->setTime(QTime());
 	ui->SubtitleTextEdit->setPlainText(QString());
@@ -836,7 +843,7 @@ void MainWindow::ClearSubtitle() {
 }
 
 void MainWindow::SelectSubFromTable(int row) {
-	if (0 > row || row >= Subtitles.size())
+	if (row < 0 || row >= Subtitles.size())
 		return;
 
 	if (!isSubApplied && EditingSubtitleIndex >= 0) {
@@ -852,15 +859,18 @@ void MainWindow::SelectSubFromTable(int row) {
 		  return;
 		}
 	}
-
+	const SubtitleItem selectedSub = Subtitles.at(row);
 	if (mPlayer->hasMedia()) {
-		float position = QTime(0, 0, 0, 0).msecsTo(Subtitles.at(row).getShowTimestamp());
+		float position = QTime(0, 0, 0, 0).msecsTo(selectedSub.getShowTimestamp());
 		mPlayer->ChangePosition(position);
+	}
+	else {
+		DisplaySubtitle(selectedSub);
 	}
 }
 
 void MainWindow::SubTableRowClicked(QModelIndex index) {
-  SelectSubFromTable(index.row());
+	SelectSubFromTable(index.row());
 }
 
 void MainWindow::GotoPreviousSub() {
@@ -960,7 +970,7 @@ void MainWindow::SubTextToggleTag(const QString &tag) {
 }
 
 void MainWindow::SubTextChanged() {
-	if (Subtitles.at(EditingSubtitleIndex).getSubtitle() != ui->SubtitleTextEdit->toPlainText())
+	if (EditingSubtitleIndex >= 0 && Subtitles.at(EditingSubtitleIndex).getSubtitle() != ui->SubtitleTextEdit->toPlainText())
 		isSubApplied = false;
 }
 
@@ -1043,10 +1053,8 @@ bool MainWindow::ApplySubtitle(const SubtitleItem &item, const int index) {
 	isSubApplied = true;
 	SetIsSaved(false);
 
+	ReloadSubtitles();
 	ShowAvailableSub();
-
-//	Save file in temp so vlc can reload the file from there
-	mPlayer->ReloadSubtitles();
 
 	return true;
 }
@@ -1071,9 +1079,8 @@ bool MainWindow::ApplySubtitles(const QList<SubtitleItem> &items) {
 	isSubApplied = true;
 	SetIsSaved(false);
 
+	ReloadSubtitles();
 	ShowAvailableSub();
-
-	mPlayer->ReloadSubtitles();
 
 	return true;
 }

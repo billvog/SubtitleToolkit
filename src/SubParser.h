@@ -5,7 +5,8 @@
 
 #pragma once
 
-#include <QDebug>
+#include <iostream>
+
 #include <QList>
 #include <QFile>
 #include <QTextStream>

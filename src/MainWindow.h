@@ -19,6 +19,7 @@
 #include <QMediaPlayer>
 #include <QInputDialog>
 #include <QGraphicsProxyWidget>
+#include <QTemporaryDir>
 
 #include "AppInfo.h"
 #include "MediaPlayer.h"
@@ -94,10 +95,13 @@ private:
 	QTime MsToTime(int ms);
 
 	void SetWindowTitle(const QString title);
-	bool CheckIfSaved();
 	void SetIsSaved(bool value);
+	bool CheckIfSaved();
 
+	void ReloadSubtitles();
 	void ShowAvailableSub();
+	
+	bool SaveFileTo(const QString& filepath);
 
 private slots:
 	// File Menu
