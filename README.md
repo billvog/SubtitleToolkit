@@ -1,4 +1,4 @@
-<p align="center" title="SubStudio icon">
+<p align="center">
   <img height=256 src="https://raw.githubusercontent.com/billvog/kincasta-studio/main/assets/colored-icon.png"/>
 </p>
 
