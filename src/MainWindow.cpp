@@ -87,33 +87,34 @@ void MainWindow::SetupButtonIcons() {
 }
 
 void MainWindow::SetupVideoWidget() {
-  videoItem = new QGraphicsVideoItem();
-  subTextItem = new QGraphicsTextItem();
+	videoItem = new QGraphicsVideoItem();
+	subTextItem = new QGraphicsTextItem();
 
-  scene = new QGraphicsScene(this);
+	scene = new QGraphicsScene(this);
 
-  QGraphicsView *view = ui->GraphicsView;
-  view->setScene(scene);
-  view->show();
+	QGraphicsView *view = ui->GraphicsView;
+	view->setScene(scene);
+	view->show();
 
-  scene->addItem(videoItem);
-  scene->addItem(subTextItem);
+	scene->addItem(videoItem);
+	scene->addItem(subTextItem);
 
-  player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
-  player->setVideoOutput(videoItem);
-  player->setNotifyInterval(50);
-  player->setVolume(ui->VolumeSlider->value());
+	player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
+	player->setVideoOutput(videoItem);
+	player->setNotifyInterval(50);
+	player->setVolume(ui->VolumeSlider->value());
 
-  subTextItem->setPlainText(QString());
-  subTextItem->setDefaultTextColor(QColorConstants::White);
+	subTextItem->setPlainText(QString());
+	subTextItem->setDefaultTextColor(QColorConstants::White);
 
-  QFont subtitleFont = subTextItem->font();
-  subtitleFont.setPixelSize(26);
-  subTextItem->setFont(subtitleFont);
+	QFont subtitleFont = subTextItem->font();
+	subtitleFont.setPixelSize(26);
+	subtitleFont.setFamily("Arial");
+	subTextItem->setFont(subtitleFont);
 
-  QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
-  shadowEffect->setOffset(1, 1);
-  subTextItem->setGraphicsEffect(shadowEffect);
+	QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
+	shadowEffect->setOffset(1, 1);
+	subTextItem->setGraphicsEffect(shadowEffect);
 }
 
 void MainWindow::SetupSubtitlesTable() {
@@ -870,25 +871,25 @@ void MainWindow::GotoNextSub() {
 }
 
 void MainWindow::DelaySubtitles() {
-  if (!hasFileOpen) {
-    QMessageBox::critical(this, "Error", "You need to open a file first");
-    return;
-  }
+	if (!hasFileOpen) {
+		QMessageBox::critical(this, "Error", "You need to open a file first");
+		return;
+	}
 
-  int maxValue = 1000;
-  double delayValue = QInputDialog::getDouble(this, "Delay", "Delay time (seconds): ", 0, -maxValue, maxValue, 3);
+	int maxValue = 1000;
+	double delayValue = QInputDialog::getDouble(this, "Delay", "Delay time (seconds): ", 0, -maxValue, maxValue, 3);
 
-  QList<SubtitleItem> newItems;
+	QList<SubtitleItem> newItems;
 
-  for (int idx = 0; idx < Subtitles.length(); idx++) {
-    SubtitleItem item = Subtitles.at(idx);
-    item.setShowTimestamp(item.getShowTimestamp().addMSecs(delayValue * 1000));
-    item.setHideTimestamp(item.getHideTimestamp().addMSecs(delayValue * 1000));
+	for (int idx = 0; idx < Subtitles.length(); idx++) {
+		SubtitleItem item = Subtitles.at(idx);
+		item.setShowTimestamp(item.getShowTimestamp().addMSecs(delayValue * 1000));
+		item.setHideTimestamp(item.getHideTimestamp().addMSecs(delayValue * 1000));
 
-    newItems.append(item);
-  }
+		newItems.append(item);
+	}
 
-  ApplySubtitles(newItems);
+	ApplySubtitles(newItems);
 }
 
 void MainWindow::SubShowTimeChanged() {

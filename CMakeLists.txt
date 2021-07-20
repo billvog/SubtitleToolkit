@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(CUR_TARGET SubStudio)
+set(CUR_TARGET Kincasta)
 
 if (WIN32)
     project(${CUR_TARGET} LANGUAGES CXX)
@@ -47,11 +47,11 @@ target_link_libraries(${CUR_TARGET} Qt5::Widgets Qt5::Multimedia Qt5::Multimedia
 if (APPLE)
 	set_target_properties(${CUR_TARGET} PROPERTIES
 		BUNDLE True
-		MACOSX_BUNDLE_GUI_IDENTIFIER com.billvog.substudio
-		MACOSX_BUNDLE_BUNDLE_NAME SubStudio
+		MACOSX_BUNDLE_GUI_IDENTIFIER com.billvog.kincasta-studio
+		MACOSX_BUNDLE_BUNDLE_NAME "Kincasta Studio"
 		MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
 		MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-		MACOSX_BUNDLE_ICON_FILE collared-icon.icns
+		MACOSX_BUNDLE_ICON_FILE colored-icon.icns
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/MacosAppBundle.plist.in
 	)
 endif()

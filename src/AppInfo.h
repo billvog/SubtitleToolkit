@@ -1,6 +1,6 @@
 #pragma once
 
 namespace SubStudio {
-	const std::string displayName = "Subtitle Studio";
-	const std::string version = "1.0.0";
+	const std::string displayName = "Kincasta Studio";
+	const std::string version = "0.0.1";
 }
