@@ -439,149 +439,142 @@ void MainWindow::ExitAction() {
 
 // Edit
 void MainWindow::UndoAction() {
-  if (UndoItems.isEmpty()) {
-    QMessageBox::warning(this, "Warning", "There isn't anything to undo");
-    return;
-  }
+	if (UndoItems.isEmpty()) {
+		QMessageBox::warning(this, "Warning", "There isn't anything to undo");
+		return;
+	}
 
-  SubtitleItem NewItem;
-  UndoItem undo = UndoItems.last();
-  UndoItem::ItemType itemType = undo.getItemType();
+	SubtitleItem NewItem;
+	UndoItem undo = UndoItems.last();
+	UndoItem::ItemType itemType = undo.getItemType();
 
-  if (itemType == UndoItem::ItemType::ADD) {
-    int i = Subtitles.indexOf(undo.getNewItem());
-    if (i >= 0) {
-      Subtitles.removeAt(i);
-      subtitlesModel->removeRow(i);
-    }
-  }
-  else if (itemType == UndoItem::ItemType::REMOVE) {
-    SubtitleItem SubItem = undo.getNewItem();
-    if (Subtitles.indexOf(SubItem) != -1) {
-      RedoItems.removeLast();
-      return;
-    }
+	if (itemType == UndoItem::ItemType::ADD) {
+		int i = Subtitles.indexOf(undo.getNewItem());
+		if (i >= 0) {
+			Subtitles.removeAt(i);
+			subtitlesModel->removeRow(i);
+		}
+	}
+	else if (itemType == UndoItem::ItemType::REMOVE) {
+		SubtitleItem SubItem = undo.getNewItem();
+		if (Subtitles.indexOf(SubItem) != -1) {
+			RedoItems.removeLast();
+			return;
+		}
 
-    subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
+		subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
 
-    Subtitles.push_back(SubItem);
+		Subtitles.push_back(SubItem);
 
-    NewItem = SubItem;
-  }
-  else if (itemType == UndoItem::ItemType::EDIT) {
-    int i = Subtitles.indexOf(undo.getNewItem());
-    if (i >= 0) {
-      SubtitleItem SubItem(undo.getOldItem());
+		NewItem = SubItem;
+	}
+	else if (itemType == UndoItem::ItemType::EDIT) {
+		int i = Subtitles.indexOf(undo.getNewItem());
+		if (i >= 0) {
+			SubtitleItem SubItem(undo.getOldItem());
+			subtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
+			Subtitles.replace(i, SubItem);
 
-      subtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
+			NewItem = SubItem;
+		}
+	}
+	else if (itemType == UndoItem::ItemType::UNIVERSAL_EDIT) {
+		Subtitles.clear();
 
-      Subtitles.replace(i, SubItem);
+		for (int idx = 0; idx < undo.getOldItems().length(); idx++) {
+			SubtitleItem oldItem = undo.getOldItems().at(idx);
+			subtitlesModel->setItem(idx, 0, new QStandardItem(oldItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(idx, 1, new QStandardItem(oldItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(idx, 2, new QStandardItem(oldItem.getSubtitle()));
+			Subtitles.append(oldItem);
+		}
+	}
 
-      NewItem = SubItem;
-    }
-  }
-  else if (itemType == UndoItem::ItemType::UNIVERSAL_EDIT) {
-      Subtitles.clear();
+	RedoItems.append(undo);
+	UndoItems.removeLast();
 
-      for (int idx = 0; idx < undo.getOldItems().length(); idx++) {
-        SubtitleItem oldItem = undo.getOldItems().at(idx);
+	subtitlesModel->sort(0);
+	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
-        subtitlesModel->setItem(idx, 0, new QStandardItem(oldItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-        subtitlesModel->setItem(idx, 1, new QStandardItem(oldItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-        subtitlesModel->setItem(idx, 2, new QStandardItem(oldItem.getSubtitle()));
+	SelectSubFromTable(Subtitles.indexOf(NewItem));
 
-        Subtitles.append(oldItem);
-      }
-  }
+	SetIsSaved(false);
 
-  RedoItems.append(undo);
-  UndoItems.removeLast();
-
-  subtitlesModel->sort(0);
-  std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
-
-  SelectSubFromTable(Subtitles.indexOf(NewItem));
-
-  SetIsSaved(false);
-
-  ShowAvailableSub();
+	ShowAvailableSub();
 }
 
 void MainWindow::RedoAction() {
-  if (RedoItems.isEmpty()) {
-    QMessageBox::warning(this, "Warning", "There isn't anything to redo");
-    return;
-  }
+	if (RedoItems.isEmpty()) {
+		QMessageBox::warning(this, "Warning", "There isn't anything to redo");
+		return;
+	}
 
-  SubtitleItem NewItem;
-  UndoItem redo = RedoItems.last();
-  UndoItem::ItemType itemType = redo.getItemType();
+	SubtitleItem NewItem;
+	UndoItem redo = RedoItems.last();
+	UndoItem::ItemType itemType = redo.getItemType();
 
-  if (itemType == UndoItem::ItemType::ADD) {
-    SubtitleItem SubItem = redo.getNewItem();
-    if (Subtitles.indexOf(SubItem) != -1) {
-      RedoItems.removeLast();
-      return;
-    }
+	if (itemType == UndoItem::ItemType::ADD) {
+		SubtitleItem SubItem = redo.getNewItem();
+		if (Subtitles.indexOf(SubItem) != -1) {
+			RedoItems.removeLast();
+			return;
+		}
 
-    subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
+		subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(SubItem.getSubtitle()));
+		Subtitles.push_back(SubItem);
 
-    Subtitles.push_back(SubItem);
+		NewItem = SubItem;
+	}
+	else if (itemType == UndoItem::ItemType::REMOVE) {
+		int i = Subtitles.indexOf(redo.getNewItem());
+		if (i >= 0) {
+			Subtitles.removeAt(i);
+			subtitlesModel->removeRow(i);
+		}
+	}
+	else if (itemType == UndoItem::ItemType::EDIT) {
+		int i = Subtitles.indexOf(redo.getOldItem());
+		if (i >= 0) {
+			SubtitleItem SubItem(redo.getNewItem());
 
-    NewItem = SubItem;
-  }
-  else if (itemType == UndoItem::ItemType::REMOVE) {
-    int i = Subtitles.indexOf(redo.getNewItem());
-    if (i >= 0) {
-      Subtitles.removeAt(i);
-      subtitlesModel->removeRow(i);
-    }
-  }
-  else if (itemType == UndoItem::ItemType::EDIT) {
-    int i = Subtitles.indexOf(redo.getOldItem());
-    if (i >= 0) {
-      SubtitleItem SubItem(redo.getNewItem());
+			subtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
 
-      subtitlesModel->setItem(i, 0, new QStandardItem(SubItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 1, new QStandardItem(SubItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(i, 2, new QStandardItem(SubItem.getSubtitle()));
+			Subtitles.replace(i, SubItem);
 
-      Subtitles.replace(i, SubItem);
+			NewItem = SubItem;
+		}
+	}
+	else if (itemType == UndoItem::ItemType::UNIVERSAL_EDIT) {
+		Subtitles.clear();
 
-      NewItem = SubItem;
-    }
-  }
-  else if (itemType == UndoItem::ItemType::UNIVERSAL_EDIT) {
-    Subtitles.clear();
+		for (int idx = 0; idx < redo.getNewItems().length(); idx++) {
+			SubtitleItem newItem = redo.getNewItems().at(idx);
+			subtitlesModel->setItem(idx, 0, new QStandardItem(newItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(idx, 1, new QStandardItem(newItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
+			subtitlesModel->setItem(idx, 2, new QStandardItem(newItem.getSubtitle()));
+			Subtitles.append(newItem);
+		}
+	}
 
-    for (int idx = 0; idx < redo.getNewItems().length(); idx++) {
-      SubtitleItem newItem = redo.getNewItems().at(idx);
+	UndoItems.append(redo);
+	RedoItems.removeLast();
 
-      subtitlesModel->setItem(idx, 0, new QStandardItem(newItem.getShowTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(idx, 1, new QStandardItem(newItem.getHideTimestamp().toString("hh:mm:ss,zzz")));
-      subtitlesModel->setItem(idx, 2, new QStandardItem(newItem.getSubtitle()));
+	subtitlesModel->sort(0);
+	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
-      Subtitles.append(newItem);
-    }
-  }
+	SelectSubFromTable(Subtitles.indexOf(NewItem));
 
-  UndoItems.append(redo);
-  RedoItems.removeLast();
+	SetIsSaved(false);
 
-  subtitlesModel->sort(0);
-  std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
-
-  SelectSubFromTable(Subtitles.indexOf(NewItem));
-
-  SetIsSaved(false);
-
-  ShowAvailableSub();
+	ShowAvailableSub();
 }
 
 // Media
@@ -880,11 +873,15 @@ void MainWindow::DelaySubtitles() {
 	double delayValue = QInputDialog::getDouble(this, "Delay", "Delay time (seconds): ", 0, -maxValue, maxValue, 3);
 
 	QList<SubtitleItem> newItems;
-
+	QItemSelectionModel *selectionModel = ui->SubTableView->selectionModel();
+	
 	for (int idx = 0; idx < Subtitles.length(); idx++) {
 		SubtitleItem item = Subtitles.at(idx);
-		item.setShowTimestamp(item.getShowTimestamp().addMSecs(delayValue * 1000));
-		item.setHideTimestamp(item.getHideTimestamp().addMSecs(delayValue * 1000));
+		
+		if (!selectionModel->hasSelection() || (selectionModel->hasSelection() && selectionModel->isRowSelected(idx))) {
+			item.setShowTimestamp(item.getShowTimestamp().addMSecs(delayValue * 1000));
+			item.setHideTimestamp(item.getHideTimestamp().addMSecs(delayValue * 1000));
+		}
 
 		newItems.append(item);
 	}
@@ -1018,57 +1015,59 @@ void MainWindow::SubStrikeoutClicked() {
 }
 
 bool MainWindow::ApplySubtitle(const SubtitleItem &item, const int index) {
-  if (index < 0) {
-    subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(item.getSubtitle()));
+	if (index < 0) {
+		subtitlesModel->setItem(Subtitles.size(), 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(Subtitles.size(), 2, new QStandardItem(item.getSubtitle()));
 
-    Subtitles.push_back(item);
-    UndoItems.append(UndoItem(item, UndoItem::ItemType::ADD));
-  }
-  else {
-    subtitlesModel->setItem(index, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(index, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(index, 2, new QStandardItem(item.getSubtitle()));
+		Subtitles.push_back(item);
+		UndoItems.append(UndoItem(item, UndoItem::ItemType::ADD));
+	}
+	else {
+		subtitlesModel->setItem(index, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(index, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(index, 2, new QStandardItem(item.getSubtitle()));
 
-    UndoItems.append(UndoItem(Subtitles.at(index), item, UndoItem::ItemType::EDIT));
-    Subtitles.replace(index, item);
-  }
+		UndoItems.append(UndoItem(Subtitles.at(index), item, UndoItem::ItemType::EDIT));
+		Subtitles.replace(index, item);
+	}
 
-  subtitlesModel->sort(0);
-  std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
+	RedoItems.clear();
+	
+	subtitlesModel->sort(0);
+	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
-  isSubApplied = true;
-  SetIsSaved(false);
+	isSubApplied = true;
+	SetIsSaved(false);
 
-  ShowAvailableSub();
+	ShowAvailableSub();
 
-  return true;
+	return true;
 }
 
 bool MainWindow::ApplySubtitles(const QList<SubtitleItem> &items) {
-  UndoItems.append(UndoItem(Subtitles, items, UndoItem::ItemType::UNIVERSAL_EDIT));
-  Subtitles.clear();
+	UndoItems.append(UndoItem(Subtitles, items, UndoItem::ItemType::UNIVERSAL_EDIT));
+	RedoItems.clear();
+	
+	Subtitles.clear();
 
-  for (int idx = 0; idx < items.length(); idx++) {
-    SubtitleItem item = items.at(idx);
+	for (int idx = 0; idx < items.length(); idx++) {
+		SubtitleItem item = items.at(idx);
+		subtitlesModel->setItem(idx, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(idx, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
+		subtitlesModel->setItem(idx, 2, new QStandardItem(item.getSubtitle()));
+		Subtitles.append(item);
+	}
 
-    subtitlesModel->setItem(idx, 0, new QStandardItem(item.getShowTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(idx, 1, new QStandardItem(item.getHideTimestamp().toString("hh:mm:ss,zzz")));
-    subtitlesModel->setItem(idx, 2, new QStandardItem(item.getSubtitle()));
+	subtitlesModel->sort(0);
+	std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
 
-    Subtitles.append(item);
-  }
+	isSubApplied = true;
+	SetIsSaved(false);
 
-  subtitlesModel->sort(0);
-  std::sort(Subtitles.begin(), Subtitles.end(), SubtitleItem::SortByShowTime);
+	ShowAvailableSub();
 
-  isSubApplied = true;
-  SetIsSaved(false);
-
-  ShowAvailableSub();
-
-  return true;
+	return true;
 }
 
 void MainWindow::ApplySubtitlePressed() {
