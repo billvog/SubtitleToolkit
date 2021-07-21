@@ -1,5 +1,6 @@
 /*
-	The subtitle text input field syntax highlighter.
+	This class handles the syntax highlighting of the
+	subtitle text input.
 */
 
 #pragma once

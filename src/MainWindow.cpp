@@ -195,41 +195,40 @@ void MainWindow::ConnectEvents() {
 }
 
 void MainWindow::SetMediaControlsEnabled(bool isEnabled) {
-  ui->TogglePlayButton->setEnabled(isEnabled);
-  ui->ToggleMuteButton->setEnabled(isEnabled);
-  ui->VolumeSlider->setEnabled(isEnabled);
-  ui->BackwardSeekButton->setEnabled(isEnabled);
-  ui->ForwardSeekButton->setEnabled(isEnabled);
-  ui->StopButton->setEnabled(isEnabled);
+	ui->TogglePlayButton->setEnabled(isEnabled);
+	ui->TimelineSlider->setEnabled(isEnabled);
+	ui->BackwardSeekButton->setEnabled(isEnabled);
+	ui->ForwardSeekButton->setEnabled(isEnabled);
+	ui->StopButton->setEnabled(isEnabled);
 }
 
 void MainWindow::UpdateUI() {
-  videoItem->setSize(ui->GraphicsView->size());
-  scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
+	videoItem->setSize(ui->GraphicsView->size());
+	scene->setSceneRect(0, 0, videoItem->size().width(), videoItem->size().height());
 
-  // Update Subtitle Text
-  subTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
-  subTextItem->setScale(subTextScaleFactor);
+	// Update Subtitle Text
+	subTextScaleFactor = std::clamp(scene->itemsBoundingRect().width() / 622, 0.0, 1.0);
+	subTextItem->setScale(subTextScaleFactor);
 
-  UpdateSubPosition();
+	UpdateSubPosition();
 }
 
 void MainWindow::UpdateSubAlignment() {
-  subTextItem->setTextWidth(subTextItem->boundingRect().width());
-  QTextBlockFormat format;
-  format.setAlignment(Qt::AlignCenter);
-  QTextCursor cursor = subTextItem->textCursor();
-  cursor.select(QTextCursor::Document);
-  cursor.mergeBlockFormat(format);
-  cursor.clearSelection();
-  subTextItem->setTextCursor(cursor);
+	QTextBlockFormat format;
+	format.setAlignment(Qt::AlignCenter);
+	QTextCursor cursor = subTextItem->textCursor();
+	cursor.select(QTextCursor::Document);
+	cursor.mergeBlockFormat(format);
+	cursor.clearSelection();
+	subTextItem->setTextCursor(cursor);
+	subTextItem->setTextWidth(subTextItem->boundingRect().width());
 }
 
 void MainWindow::UpdateSubPosition() {
-  QSizeF textRectSize = subTextItem->boundingRect().size() * subTextScaleFactor;
-  qreal target_y = videoItem->size().height() - textRectSize.height();
-  qreal target_x = (videoItem->size().width() - textRectSize.width()) / 2;
-  subTextItem->setPos(target_x, target_y);
+	QSizeF textRectSize = subTextItem->boundingRect().size() * subTextScaleFactor;
+	qreal target_y = videoItem->size().height() - textRectSize.height();
+	qreal target_x = (videoItem->size().width() - textRectSize.width()) / 2;
+	subTextItem->setPos(target_x, target_y);
 }
 
 QTime MainWindow::MsToTime(int ms) {
@@ -594,12 +593,13 @@ void MainWindow::OpenMediaAction() {
 }
 
 void MainWindow::CloseMediaAction() {
-  player->setMedia(QMediaContent());
-  player->stop();
+	player->setMedia(QMediaContent());
+	player->stop();
+	
+	VideoDurationChanged(0);
+	SetMediaControlsEnabled(false);
 
-  SetMediaControlsEnabled(false);
-
-  ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+	ui->TogglePlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 }
 
 // Help
@@ -628,13 +628,14 @@ void MainWindow::VideoSeekableChanged(bool) {
 }
 
 void MainWindow::VideoDurationChanged(qint64 value) {
-  if (value == 0) {
-    ui->TimelineSlider->setMaximum(1);
-    ui->TimelineSlider->setEnabled(false);
-  }
+	if (value == 0) {
+		ui->TimelineSlider->setMaximum(1);
+		ui->TimelineSlider->setEnabled(false);
+		ui->TimelineLabel->setText("00:00:00,000 / 00:00:00,000");
+	}
 
-  ui->TimelineSlider->setEnabled(true);
-  ui->TimelineSlider->setMaximum(value);
+	ui->TimelineSlider->setEnabled(true);
+	ui->TimelineSlider->setMaximum(value);
 }
 
 void MainWindow::VideoPositionChanged(qint64 value) {
@@ -790,31 +791,31 @@ void MainWindow::ShowAvailableSub() {
 }
 
 void MainWindow::DisplaySubtitle(const SubtitleItem &subItem) {
-  int index = Subtitles.indexOf(subItem);
-  if (index == -1)
-    return;
+	int index = Subtitles.indexOf(subItem);
+	if (index == -1)
+		return;
 
-  // Display Subtitle on Video
-  subTextItem->setHtml(subItem.getSubtitle().replace('\n', "<br>"));
+	// Display Subtitle on Video
+	subTextItem->setHtml(subItem.getSubtitle().replace('\n', "<br>"));
 
-  UpdateSubAlignment();
-  UpdateSubPosition();
+	UpdateSubAlignment();
+	UpdateSubPosition();
 
-  // Fill active Subtitle values on fields
-  int SubShowTime = QTime(0, 0, 0).msecsTo(subItem.getShowTimestamp());
-  int SubHideTime = QTime(0, 0, 0).msecsTo(subItem.getHideTimestamp());
+	// Fill active Subtitle values on fields
+	int SubShowTime = QTime(0, 0, 0).msecsTo(subItem.getShowTimestamp());
+	int SubHideTime = QTime(0, 0, 0).msecsTo(subItem.getHideTimestamp());
 
-  ui->ShowSubTimeEdit->setTime(subItem.getShowTimestamp());
-  ui->HideSubTimeEdit->setTime(subItem.getHideTimestamp());
-  ui->SubtitleTextEdit->setPlainText(subItem.getSubtitle());
-  ui->DurationSubTimeEdit->setTime(MsToTime(SubHideTime - SubShowTime));
+	ui->ShowSubTimeEdit->setTime(subItem.getShowTimestamp());
+	ui->HideSubTimeEdit->setTime(subItem.getHideTimestamp());
+	ui->SubtitleTextEdit->setPlainText(subItem.getSubtitle());
+	ui->DurationSubTimeEdit->setTime(MsToTime(SubHideTime - SubShowTime));
 
-  // Select active Subtitle on table
-  ui->SubTableView->selectRow(index);
-  EditingSubtitleIndex = index;
-  PrevEditinSubtitleIndex = EditingSubtitleIndex;
+	// Select active Subtitle on table
+	ui->SubTableView->selectRow(index);
+	EditingSubtitleIndex = index;
+	PrevEditinSubtitleIndex = EditingSubtitleIndex;
 
-  isSubApplied = true;
+	isSubApplied = true;
 }
 
 void MainWindow::ClearSubtitle() {

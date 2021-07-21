@@ -1,6 +1,8 @@
 /*
 	SubParser class handles the parsing and exporting job for subtitles.
-	Currently, it can only read two types of subtitle files (.srt and .vtt)
+	Currently, it can only read two types of subtitle files (.srt and .vtt).
+ 
+	Feel free to implement another format!
 */
 
 #pragma once
