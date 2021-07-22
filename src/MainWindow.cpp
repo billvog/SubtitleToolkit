@@ -632,6 +632,7 @@ void MainWindow::VideoDurationChanged(qint64 value) {
 		ui->TimelineSlider->setMaximum(1);
 		ui->TimelineSlider->setEnabled(false);
 		ui->TimelineLabel->setText("00:00:00,000 / 00:00:00,000");
+		return;
 	}
 
 	ui->TimelineSlider->setEnabled(true);
